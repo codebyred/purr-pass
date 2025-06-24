@@ -1,7 +1,7 @@
 "use client"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { HeroBanners } from "@/lib/data"
+import { heroBanners } from "@/lib/data"
 import Image from "next/image"
 
 const HeroCarousel = () => {
@@ -16,7 +16,7 @@ const HeroCarousel = () => {
                 showStatus={false}
             >
                 {
-                    HeroBanners.map(({ imageUrl, alt }) => (
+                    heroBanners.map(({ imageUrl, alt }) => (
                         <Image
                             key={alt}
                             src={imageUrl}

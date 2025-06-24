@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Logo from "./logo"
+import Logo from "../logo"
 
 export const Footer = () => {
     return (
@@ -26,7 +26,7 @@ export const Footer = () => {
                 </div>
             </div>
             <div className="text-xs sm:col-span-2 border-t-2 flex items-center justify-center">
-                <p>&copy; 2025 PetLandBd - All rights reserved</p>
+                <p>&copy; 2025 PurrPass - All rights reserved</p>
             </div>
         </footer>
     )

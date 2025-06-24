@@ -1,4 +1,9 @@
-export const HeroBanners = [
+import { title } from "process";
+import { MdOutlineSpaceDashboard } from "react-icons/md";
+import { AiOutlineProduct } from "react-icons/ai";
+import { FaBagShopping } from "react-icons/fa6";
+
+export const heroBanners = [
   {
     imageUrl: "/hero-banner-1.webp",
     alt: "hero bannger"
@@ -8,39 +13,38 @@ export const HeroBanners = [
     alt: "hero bannger"
   }
 ]
-
-export const Categories = [
+export const categories = [
   {
     name: "Cat",
     children: [
       {
         name: "Cat Food",
-        link: "/product/cat-food",
+        link: "/product-category/cat-food",
         children: [
-          { name: "Adult Food", link: "/product/cat-food/adult-food" },
-          { name: "Can Food", link: "/product/cat-food/can-food" },
-          { name: "Kitten Food", link: "/product/cat-food/kitten-food" }
+          { name: "Adult Food", link: "/product-category/cat-food/adult-food" },
+          { name: "Can Food", link: "/product-category/cat-food/can-food" },
+          { name: "Kitten Food", link: "/product-category/cat-food/kitten-food" }
         ]
       },
       {
         name: "Cat Toys",
-        link: "/product/cat-toys"
+        link: "/product-category/cat-toys"
       },
       {
         name: "Cat Litter",
-        link: "/product/cat-litter",
+        link: "/product-category/cat-litter",
         children: [
-          { name: "Clumping Cat Litter", link: "/product/cat-litter/clumping-cat-litter" },
-          { name: "Cat Litter Box", link: "/product/cat-litter/clumping-litter-box" }
+          { name: "Clumping Cat Litter", link: "/product-category/cat-litter/clumping-cat-litter" },
+          { name: "Cat Litter Box", link: "/product-category/cat-litter/clumping-litter-box" }
         ]
       },
       {
         name: "Cat Accessories",
-        link: "/product/cat-accessories",
+        link: "/product-category/cat-accessories",
         children: [
-          { name: "Collar", link: "/product/cat-accessories/collar" },
-          { name: "Box Tie", link: "/product/cat-accessories/box-tie" },
-          { name: "Sunglass", link: "/product/cat-accessories/sunglass" }
+          { name: "Collar", link: "/product-category/cat-accessories/collar" },
+          { name: "Box Tie", link: "/product-category/cat-accessories/box-tie" },
+          { name: "Sunglass", link: "/product-category/cat-accessories/sunglass" }
         ]
       }
     ]
@@ -50,18 +54,18 @@ export const Categories = [
     children: [
       {
         name: "Dog Food",
-        link: "/product/dog-food",
+        link: "/product-category/dog-food",
         children: [
-          { name: "Puppy Food", link: "/product/dog-food/puppy-food" },
-          { name: "Adult Food", link: "/product/dog-food/adult-food" }
+          { name: "Puppy Food", link: "/product-category/dog-food/puppy-food" },
+          { name: "Adult Food", link: "/product-category/dog-food/adult-food" }
         ]
       },
       {
         name: "Dog Health & Accessories",
-        link: "/product/dog-health-accessories",
+        link: "/product-category/dog-health-accessories",
         children: [
-          { name: "Dog Harness", link: "/product/dog-health-accessories/puppy-food" },
-          { name: "Dog Shampoo", link: "/product/dog-health-accessories/dog-shampoo" }
+          { name: "Dog Harness", link: "/product-category/dog-health-accessories/puppy-food" },
+          { name: "Dog Shampoo", link: "/product-category/dog-health-accessories/dog-shampoo" }
         ]
       }
     ]
@@ -69,17 +73,42 @@ export const Categories = [
   {
     name: "Bird",
     children: [
-      { name: "Bird Food", link: "/product/bird-food" },
-      { name: "Bird Cage", link: "/product/bird-cage" }
+      { name: "Bird Food", link: "/product-category/bird-food" },
+      { name: "Bird Cage", link: "/product-category/bird-cage" }
     ]
   },
   {
     name: "Rabbit",
     children: [
-      { name: "Rabbit Food", link: "/product/rabbit-food" },
-      { name: "Rabbit Cage", link: "/product/bird-food" }
+      { name: "Rabbit Food", link: "/product-category/rabbit-food" },
+      { name: "Rabbit Cage", link: "/product-category/bird-food" }
     ]
   }
 ];
+
+export const adminSidebarItem = [
+  {
+    title: "Dashboard",
+    url: "/admin/",
+    icon: MdOutlineSpaceDashboard,
+  },
+  {
+    title: "Products",
+    url: "/admin/product",
+    icon: AiOutlineProduct,
+    items: [
+      {
+        title: "Create",
+        url: "/admin/product/create"
+      }
+    ]
+  },
+  {
+    title: "Orders",
+    url: "/admin/order",
+    icon: FaBagShopping
+  }
+]
+
 
 

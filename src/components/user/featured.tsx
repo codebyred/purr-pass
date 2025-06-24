@@ -1,9 +1,13 @@
-import CategoryCard from "./category-card";
+import CategoryCard from "@/components/user/category-card";
 import React from "react";
 
 const Featured = () => {
 
-    const featuredCategories = ["Cat Toys", "Cat Food", "Bird Cage"]
+    const featuredCategories = [
+        {name:"Cat Toys", link:"/product-category/cat-toys"}, 
+        {name:"Cat Food", link:"/product-category/cat-food"},
+        {name:"Bird Cage", link:"/product-category/bird-cage"}
+    ]
 
     return (
         <div className="py-2 flex flex-col items-center">
@@ -12,7 +16,10 @@ const Featured = () => {
                 {
                     featuredCategories.map((featured, index) => (
                         <React.Fragment key={index}>
-                            <CategoryCard categoryName={featured} index={index}/>
+                            <CategoryCard 
+                            categoryName={featured.name} 
+                            categoryLink={featured.link}
+                            index={index}/>
                         </React.Fragment>
                     ))
                 }

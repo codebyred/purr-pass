@@ -1,5 +1,5 @@
-import HeroCarousel from "@/components/hero-carousel";
-import Featured from "@/components/featured"
+import HeroCarousel from "@/components/user/hero-carousel";
+import Featured from "@/components/user/featured"
 
 export default function HomePage() {
   return (

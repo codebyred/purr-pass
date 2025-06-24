@@ -1,0 +1,236 @@
+{
+  "products": [
+    {
+      "id": "whiskas-pouch-adult-tuna-cat-food",
+      "name": "Whiskas Pouch Adult Tuna Cat Food",
+      "brand": "Whiskas",
+      "category": "Adult Food",
+      "images": ["/adult-food.jpg", "/cat.png", "/adult-food.jpg"],
+      "variantOptions": [
+        {
+          "name": "Weight",
+          "affectsPrice": true,
+          "values": ["5kg", "10kg", "20kg"]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "WPAT80g-5kg",
+          "values": { "Weight": "5kg" },
+          "currPrice": 85,
+          "originalPrice": 85,
+          "isDefault": true
+        },
+        {
+          "sku": "WPAT80g-10kg",
+          "values": { "Weight": "10kg" },
+          "currPrice": 150,
+          "originalPrice": 150,
+          "isDefault": false
+        },
+        {
+          "sku": "WPAT80g-20kg",
+          "values": { "Weight": "20kg" },
+          "currPrice": 750,
+          "originalPrice": 750,
+          "isDefault": false
+        }
+      ]
+    },
+    {
+      "id": "royal-canin-fit-32-adult-dry-cat-food",
+      "name": "Royal Canin Fit 32 Adult Dry Cat Food",
+      "brand": "Royal Canin",
+      "category": "Adult Food",
+      "images": ["/adult-food.jpg"],
+      "variantOptions": [],
+      "variants": [
+        {
+          "sku": "RCFIT32-2KG",
+          "currPrice": 950,
+          "originalPrice": 1050,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "me-o-adult-cat-food-tuna",
+      "name": "Me-O Adult Cat Food Tuna",
+      "brand": "Me-O",
+      "category": "Adult Food",
+      "images": ["/adult-food.jpg"],
+      "variantOptions": [
+        {
+          "name": "Weight",
+          "affectsPrice": true,
+          "values": ["1.2kg", "7kg"]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "MEOTUNA-1.2KG",
+          "values": { "Weight": "1.2kg" },
+          "currPrice": 350,
+          "originalPrice": 390,
+          "isDefault": true
+        },
+        {
+          "sku": "MEOTUNA-7KG",
+          "values": { "Weight": "7kg" },
+          "currPrice": 1650,
+          "originalPrice": 1700,
+          "isDefault": false
+        }
+      ]
+    },
+    {
+      "id": "cat-teaser-feather-wand-toy",
+      "name": "Cat Teaser Feather Wand Toy",
+      "brand": "PawPal",
+      "category": "Cat Toys",
+      "images": ["/adult-food.jpg"],
+      "variantOptions": [],
+      "variants": [
+        {
+          "sku": "CTOY-WAND01",
+          "currPrice": 199,
+          "originalPrice": 249,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "interactive-laser-pointer-for-cats",
+      "name": "Interactive Laser Pointer for Cats",
+      "brand": "FurPlay",
+      "category": "Cat Toys",
+      "images": ["/adult-food.jpg"],
+      "variantOptions": [],
+      "variants": [
+        {
+          "sku": "LASERCAT-01",
+          "currPrice": 299,
+          "originalPrice": 399,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "rolling-ball-cat-toy-with-bell",
+      "name": "Rolling Ball Cat Toy with Bell",
+      "brand": "PetJoy",
+      "category": "Cat Toys",
+      "images": ["/adult-food.jpg"],
+      "variantOptions": [],
+      "variants": [
+        {
+          "sku": "RBALL-BELL01",
+          "currPrice": 150,
+          "originalPrice": 190,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "catnip-plush-mouse-toys-(pack-of-3)",
+      "name": "Catnip Plush Mouse Toys (Pack of 3)",
+      "brand": "WhiskerWorld",
+      "category": "Cat Toys",
+      "images": ["/adult-food.jpg"],
+      "variantOptions": [],
+      "variants": [
+        {
+          "sku": "CATNIPMOUSE-3PK",
+          "currPrice": 275,
+          "originalPrice": 320,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "3-in-1-cat-long-fur-remover-brush-for-cats-and-dogs",
+      "name": "3-in-1 Cat Long Fur Remover Brush for Cats and Dogs",
+      "brand": "Generic",
+      "category": "Cat Accessories",
+      "images": ["/adult-food.jpg"],
+      "variantOptions": [],
+      "variants": [
+        {
+          "sku": "CFURBRUSH01",
+          "currPrice": 299,
+          "originalPrice": 399,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "adjustable-cat-collar-with-bell",
+      "name": "Adjustable Cat Collar with Bell",
+      "brand": "PetStyle",
+      "category": "Cat Accessories",
+      "images": ["/adult-food.jpg"],
+      "variantOptions": [
+        {
+          "name": "Color",
+          "affectsPrice": false,
+          "values": ["Red", "Blue", "Green"]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "COLLAR-RED",
+          "values": { "Color": "Red" },
+          "currPrice": 120,
+          "originalPrice": 150,
+          "isDefault": true
+        },
+        {
+          "sku": "COLLAR-BLUE",
+          "values": { "Color": "Blue" },
+          "currPrice": 120,
+          "originalPrice": 150,
+          "isDefault": false
+        },
+        {
+          "sku": "COLLAR-GREEN",
+          "values": { "Color": "Green" },
+          "currPrice": 120,
+          "originalPrice": 150,
+          "isDefault": false
+        }
+      ]
+    },
+    {
+      "id": "portable-cat-water-bottle-dispenser",
+      "name": "Portable Cat Water Bottle Dispenser",
+      "brand": "ThirstyPet",
+      "category": "Cat Accessories",
+      "images": ["/adult-food.jpg"],
+      "variantOptions": [],
+      "variants": [
+        {
+          "sku": "WATERDISP-PORT01",
+          "currPrice": 450,
+          "originalPrice": 499,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "cat-litter-mat-–-waterproof-and-easy-to-clean",
+      "name": "Cat Litter Mat – Waterproof and Easy to Clean",
+      "brand": "MeowMat",
+      "category": "Cat Accessories",
+      "images": ["/adult-food.jpg"],
+      "variantOptions": [],
+      "variants": [
+        {
+          "sku": "LITTERMAT01",
+          "currPrice": 590,
+          "originalPrice": 690,
+          "isDefault": true
+        }
+      ]
+    }
+  ]
+}

@@ -9,7 +9,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Categories } from "@/lib/data"
+import { categories } from "@/lib/data"
 import Link from "next/link"
 import { FaAngleDown } from "react-icons/fa";
 import { motion } from "framer-motion"
@@ -22,17 +22,17 @@ export default function Nav() {
       className="hidden sm:w-full sm:flex sm:items-center sm:justify-center sm:border-b-2 py-2">
       <ul className="list-none flex items-center gap-4">
         <Link href={"/"}>
-          <li className="hover:bg-gray-100 rounded-lg py-1 px-2">
+          <li className="hover:bg-primary/20 font-medium rounded-lg py-1 px-2">
             Home
           </li>
         </Link>
         {
-          Categories.map((cat, index) => (
+          categories.map((cat, index) => (
             <li
               key={index}
             >
               <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-2 hover:bg-gray-100 rounded-lg py-1 px-2">
+                <DropdownMenuTrigger className="flex items-center gap-2 hover:bg-primary/20 font-medium rounded-lg py-1 px-2">
                   {cat.name}
                   <FaAngleDown />
                 </DropdownMenuTrigger>
@@ -63,7 +63,7 @@ type NavItemProps = {
 function SubMenu({ name, link, children }: NavItemProps) {
   return children ? (
     <DropdownMenuSub>
-      <DropdownMenuSubTrigger>{name}</DropdownMenuSubTrigger>
+      <Link href={link} className="font-medium"><DropdownMenuSubTrigger>{name}</DropdownMenuSubTrigger></Link>
       <DropdownMenuSubContent>
         <DropdownMenuSub>
           {
@@ -78,6 +78,6 @@ function SubMenu({ name, link, children }: NavItemProps) {
     </DropdownMenuSub>
 
   ) : (  
-    <DropdownMenuItem asChild><Link href={link}>{name}</Link></DropdownMenuItem>
+    <DropdownMenuItem asChild className="font-medium"><Link href={link}>{name}</Link></DropdownMenuItem>
   );
 }
