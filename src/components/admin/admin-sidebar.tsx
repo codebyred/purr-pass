@@ -7,6 +7,8 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -27,7 +29,7 @@ export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
             <SidebarMenuButton
               asChild
             >
-              <Logo/>
+              <Logo />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -35,29 +37,42 @@ export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
       <SidebarContent>
         <SidebarMenu>
           {
-            adminSidebarItem.map((item) => (
-              <SidebarMenuItem className="list-none" key={item.title}>
-                <SidebarMenuButton tooltip={item.title}>
-                  <Link href={item.url} className="flex items-center gap-2">
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                  </Link>
-
-                </SidebarMenuButton>
+            adminSidebarItem.map((groupItem) => (
+              <SidebarGroup key={groupItem.group}>
+                <SidebarGroupLabel>{groupItem.group}</SidebarGroupLabel>
                 {
-                  item.items && item.items?.length && (
-                    <SidebarMenuSub>
-                      {
-                        item.items.map(subItem => (
-                          <SidebarMenuSubItem key={subItem.title}>
-                            <SidebarMenuSubButton asChild>
-                              <a href={subItem.url}>{subItem.title}</a>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>))
-                      }
-                    </SidebarMenuSub>)
+                  groupItem.items.map((item) => (
+                    <SidebarMenuItem className="list-none" key={item.title}>
+                      {"items" in item && Array.isArray(item.items) && item.items.length ? (
+                        <>
+                          <SidebarMenuButton tooltip={item.title}>
+                            <div className="flex items-center gap-2">
+                              {item.icon && <item.icon />}
+                              <span>{item.title}</span>
+                            </div>
+                          </SidebarMenuButton>
+                          <SidebarMenuSub>
+                            {item.items.map((subItem) => (
+                              <SidebarMenuSubItem key={subItem.title}>
+                                <SidebarMenuSubButton asChild>
+                                  <Link href={subItem.url}>{subItem.title}</Link>
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            ))}
+                          </SidebarMenuSub>
+                        </>
+                      ) : (
+                        <SidebarMenuButton asChild tooltip={item.title}>
+                          <Link href={item.url} className="flex items-center gap-2">
+                            {item.icon && <item.icon />}
+                            <span>{item.title}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      )}
+                    </SidebarMenuItem>
+                  ))
                 }
-              </SidebarMenuItem>
+              </SidebarGroup>
             ))
           }
         </SidebarMenu>

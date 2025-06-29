@@ -1,5 +1,5 @@
 import { AdminSidebar } from "@/components/admin/admin-sidebar"
-import  AdminHeader from "@/components/admin/admin-header"
+import AdminHeader from "@/components/admin/admin-header"
 import {
     SidebarInset,
     SidebarProvider,
@@ -8,21 +8,20 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/app/globals.css";
 
-
 const geistSans = localFont({
-  src: "../fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+    src: "../fonts/GeistVF.woff",
+    variable: "--font-geist-sans",
+    weight: "100 900",
 });
 const geistMono = localFont({
-  src: "../fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+    src: "../fonts/GeistMonoVF.woff",
+    variable: "--font-geist-mono",
+    weight: "100 900",
 });
 
 export const metadata: Metadata = {
-  title: "Pet Shop",
-  description: "Pet food & accessories",
+    title: "Pet Shop",
+    description: "Pet food & accessories",
 };
 
 export default function CategoryLayout({
@@ -36,10 +35,11 @@ export default function CategoryLayout({
                 <SidebarProvider>
                     <AdminSidebar variant="inset" />
                     <SidebarInset>
-                        <AdminHeader />
+                        <AdminHeader className="mb-8"/>
                         {children}
                     </SidebarInset>
                 </SidebarProvider>
+
             </body>
         </html>
     )

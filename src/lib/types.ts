@@ -18,12 +18,20 @@ export const variantSchema = z.object({
 
 export type Variant = z.infer<typeof variantSchema>;
 
+export const imageSchema = z.object({
+  src: z.string(),
+  alt: z.string()
+})
+
 export const productSchema = z.object({
   id: z.string(),
   name: z.string(),
   brand: z.string(),
-  category: z.string(),
-  images: z.array(z.string()),
+  category: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+  images: z.array(imageSchema),
   variantOptions: z.array(variantOptionSchema),
   variants: z.array(variantSchema),
 });
@@ -43,20 +51,43 @@ export const fileSchema = z
     message: "At least one file is required",
 });
 
-export const variantFormSchema = z.object({
+export const variantFormDataSchema = z.object({
   value: z.string(),
-  discount: z.number(),
-  price: z.number(),
+  discount: z.number().optional(),
+  price: z.number().optional(),
   isDefault: z.boolean(),
 });
 
-export const productFormSchema = z.object({
+export const productFormDataSchema = z.object({
   name: z.string(),
   brand: z.string(),
-  category: z.string(),
+  categoryId: z.string(),
   images: fileSchema,
   variantType: z.string(),
-  variants: z.array(variantFormSchema),
+  variants: z.array(variantFormDataSchema),
 });
 
-export type ProductForm = z.infer<typeof productFormSchema>;
+export type ProductFormData = z.infer<typeof productFormDataSchema>;
+
+export type VariantInputValue = {
+  name: string,
+  value: string
+}
+
+export type CategoryInputValue = {
+  name: string,
+  value: string
+}
+
+export type NestedCategory = {
+  id: string;
+  name: string;
+  link: string;
+  children?: NestedCategory[];
+};
+
+export type FlatCategory = {
+  id: string;
+  name: string;
+  parentId?: string;
+};

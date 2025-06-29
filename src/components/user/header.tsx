@@ -1,5 +1,5 @@
 import React from "react";
-import Searchbar from "./searchbar";
+import Searchbar from "../searchbar";
 import { CiShoppingCart } from "react-icons/ci";
 import Nav from "./nav";
 import Logo from "../logo";

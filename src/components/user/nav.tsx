@@ -9,12 +9,17 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { categories } from "@/lib/data"
+import { flatCategories } from "@/lib/data"
 import Link from "next/link"
 import { FaAngleDown } from "react-icons/fa";
 import { motion } from "framer-motion"
+import { FlatCategory, NestedCategory } from "@/lib/types"
+import { buildNestedCategories } from "@/lib/utils"
 
 export default function Nav() {
+
+  const categories = buildNestedCategories(flatCategories);
+
   return (
     <motion.div
       initial={{ y: -500, z: -1 }}
@@ -40,7 +45,7 @@ export default function Nav() {
                     {
                       cat.children && cat.children.map((child, index) => (
                         <React.Fragment key={index}>
-                          <SubMenu {...child} />
+                          <SubMenu item={{...child}} />
                         </React.Fragment>
                       ))
                     }
@@ -55,21 +60,20 @@ export default function Nav() {
 }
 
 type NavItemProps = {
-  name: string
-  link: string
-  children?: { name: string, link: string }[]
+  item: NestedCategory
 }
 
-function SubMenu({ name, link, children }: NavItemProps) {
+function SubMenu(props: NavItemProps) {
+  const { name, link, children } = props.item;
   return children ? (
     <DropdownMenuSub>
-      <Link href={link} className="font-medium"><DropdownMenuSubTrigger>{name}</DropdownMenuSubTrigger></Link>
+      <Link href={link??""} className="font-medium"><DropdownMenuSubTrigger>{name}</DropdownMenuSubTrigger></Link>
       <DropdownMenuSubContent>
         <DropdownMenuSub>
           {
             children.map((child, index) => (
               <React.Fragment key={index}>
-                  <SubMenu {...child} />
+                  <SubMenu item={{...child}} />
               </React.Fragment>
             ))
           }
@@ -78,6 +82,6 @@ function SubMenu({ name, link, children }: NavItemProps) {
     </DropdownMenuSub>
 
   ) : (  
-    <DropdownMenuItem asChild className="font-medium"><Link href={link}>{name}</Link></DropdownMenuItem>
+    <DropdownMenuItem asChild className="font-medium"><Link href={link?? ""}>{name}</Link></DropdownMenuItem>
   );
 }

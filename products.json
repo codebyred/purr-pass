@@ -4,7 +4,7 @@
       "id": "whiskas-pouch-adult-tuna-cat-food",
       "name": "Whiskas Pouch Adult Tuna Cat Food",
       "brand": "Whiskas",
-      "category": "Adult Food",
+      "category": { "id": "111", "name": "Adult Food" },
       "images": ["/adult-food.jpg", "/cat.png", "/adult-food.jpg"],
       "variantOptions": [
         {
@@ -41,7 +41,7 @@
       "id": "royal-canin-fit-32-adult-dry-cat-food",
       "name": "Royal Canin Fit 32 Adult Dry Cat Food",
       "brand": "Royal Canin",
-      "category": "Adult Food",
+      "category": { "id": "111", "name": "Adult Food" },
       "images": ["/adult-food.jpg"],
       "variantOptions": [],
       "variants": [
@@ -57,7 +57,7 @@
       "id": "me-o-adult-cat-food-tuna",
       "name": "Me-O Adult Cat Food Tuna",
       "brand": "Me-O",
-      "category": "Adult Food",
+      "category": { "id": "111", "name": "Adult Food" },
       "images": ["/adult-food.jpg"],
       "variantOptions": [
         {
@@ -87,7 +87,7 @@
       "id": "cat-teaser-feather-wand-toy",
       "name": "Cat Teaser Feather Wand Toy",
       "brand": "PawPal",
-      "category": "Cat Toys",
+      "category": { "id": "12", "name": "Cat Toys" },
       "images": ["/adult-food.jpg"],
       "variantOptions": [],
       "variants": [
@@ -103,7 +103,7 @@
       "id": "interactive-laser-pointer-for-cats",
       "name": "Interactive Laser Pointer for Cats",
       "brand": "FurPlay",
-      "category": "Cat Toys",
+      "category": { "id": "12", "name": "Cat Toys" },
       "images": ["/adult-food.jpg"],
       "variantOptions": [],
       "variants": [
@@ -119,7 +119,7 @@
       "id": "rolling-ball-cat-toy-with-bell",
       "name": "Rolling Ball Cat Toy with Bell",
       "brand": "PetJoy",
-      "category": "Cat Toys",
+      "category": { "id": "12", "name": "Cat Toys" },
       "images": ["/adult-food.jpg"],
       "variantOptions": [],
       "variants": [
@@ -135,7 +135,7 @@
       "id": "catnip-plush-mouse-toys-(pack-of-3)",
       "name": "Catnip Plush Mouse Toys (Pack of 3)",
       "brand": "WhiskerWorld",
-      "category": "Cat Toys",
+      "category": { "id": "12", "name": "Cat Toys" },
       "images": ["/adult-food.jpg"],
       "variantOptions": [],
       "variants": [
@@ -151,7 +151,7 @@
       "id": "3-in-1-cat-long-fur-remover-brush-for-cats-and-dogs",
       "name": "3-in-1 Cat Long Fur Remover Brush for Cats and Dogs",
       "brand": "Generic",
-      "category": "Cat Accessories",
+      "category": { "id": "14", "name": "Cat Accessories" },
       "images": ["/adult-food.jpg"],
       "variantOptions": [],
       "variants": [
@@ -167,7 +167,7 @@
       "id": "adjustable-cat-collar-with-bell",
       "name": "Adjustable Cat Collar with Bell",
       "brand": "PetStyle",
-      "category": "Cat Accessories",
+      "category": { "id": "141", "name": "Collar" },
       "images": ["/adult-food.jpg"],
       "variantOptions": [
         {
@@ -204,7 +204,7 @@
       "id": "portable-cat-water-bottle-dispenser",
       "name": "Portable Cat Water Bottle Dispenser",
       "brand": "ThirstyPet",
-      "category": "Cat Accessories",
+      "category": { "id": "14", "name": "Cat Accessories" },
       "images": ["/adult-food.jpg"],
       "variantOptions": [],
       "variants": [
@@ -220,7 +220,7 @@
       "id": "cat-litter-mat-–-waterproof-and-easy-to-clean",
       "name": "Cat Litter Mat – Waterproof and Easy to Clean",
       "brand": "MeowMat",
-      "category": "Cat Accessories",
+      "category": { "id": "14", "name": "Cat Accessories" },
       "images": ["/adult-food.jpg"],
       "variantOptions": [],
       "variants": [

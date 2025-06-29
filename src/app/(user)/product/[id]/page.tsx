@@ -1,4 +1,4 @@
-import { getProductById, getProductsByCategory } from "@/actions/product-action"
+import { getProductById, getProductsByCategoryId} from "@/actions/product-action"
 import Product from "@/components/user/product";
 import ProductCard from "@/components/user/product-card";
 
@@ -11,7 +11,7 @@ type PageProps = {
 export default async function ProductPage(props: PageProps) {
 
     const product = await getProductById(props.params.id);
-    const products = await getProductsByCategory(product?.category as string);
+    const products = await getProductsByCategoryId(product?.category.id as string);
 
     return product && (
         <div className="flex flex-col">

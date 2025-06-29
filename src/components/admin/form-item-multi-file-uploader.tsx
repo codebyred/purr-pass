@@ -5,15 +5,15 @@ import Image from "next/image";
 import { MdDeleteForever } from "react-icons/md";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { ControllerRenderProps } from "react-hook-form";
+import { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
 import { ProductForm } from "@/lib/types";
 import { FaImages } from "react-icons/fa";
 
-type MultiFileUploaderProps = {
-    field: ControllerRenderProps<ProductForm, "images">
+type MultiFileUploaderProps<T  extends FieldValues> = {
+    field: ControllerRenderProps<T, Path<T>>
 }
 
-export default function MultiFileUploader(props: MultiFileUploaderProps) {
+export default function MultiFileUploader<T extends FieldValues>(props: MultiFileUploaderProps<T>) {
 
     const { field } = props;
     const { onChange, value, ref, ...rest } = field;
@@ -43,12 +43,12 @@ export default function MultiFileUploader(props: MultiFileUploaderProps) {
 
     return (
         <div className="flex flex-col">
-            <div className="flex gap-2">
+            <div className="flex flex-wrap items-center justify-center gap-2">
                 {
                     files.map((file, index) => (
                         <div
                             key={file.name}
-                            className="relative h-[100px] w-[100px] rounded-sm border-2"
+                            className="relative h-[180px] w-[180px] rounded-sm border-2"
                         >
                             <div
                                 className="absolute -right-2 -top-2 w-6 h-6 flex items-center justify-center border-2 border-gray-900 rounded-full bg-gray-100"
@@ -58,43 +58,44 @@ export default function MultiFileUploader(props: MultiFileUploaderProps) {
                             </div>
                             <Image
                                 src={URL.createObjectURL(file)}
-                                width={480}
-                                height={480}
+                                width={180}
+                                height={180}
                                 alt="product image"
                                 className="object-contain aspect-square "
                             />
                         </div>
                     ))
                 }
+                <div className="h-[180px] w-[180px] border-2 border-primary rounded-sm flex items-center justify-center">
+                    <button
+                        type="button"
+                        onClick={() => triggerFileInput()}
+                        className="flex flex-col items-center gap-2"
+                    >
+                        <FaImages />
+                        Upload Image
+                    </button>
+                    <Input
+                        ref={imageInputRef}
+                        type="file"
+                        multiple
+                        {...rest}
+                        onChange={(e) => {
+                            const selecteFiles = e.target.files;
+                            if (!selecteFiles || selecteFiles.length === 0) return;
+
+                            const newFiles = Array.from(selecteFiles);
+                            const updatedFiles = [...files, ...newFiles];
+
+                            setFiles(updatedFiles)
+
+                            onChange(toFileList(updatedFiles))
+                        }}
+                        className="hidden"
+                    />
+                </div>
             </div>
-            <div>
-                <Button
-                    type="button"
-                    onClick={() => triggerFileInput()}
-                    className="bg-gray-900 text-gray-100 hover:bg-gray-700 flex items-center gap-2"
-                >
-                    <FaImages />
-                    Add Image
-                </Button>
-                <Input
-                    ref={imageInputRef}
-                    type="file"
-                    multiple
-                    {...rest}
-                    onChange={(e) => {
-                        const selecteFiles = e.target.files;
-                        if (!selecteFiles || selecteFiles.length === 0) return;
 
-                        const newFiles = Array.from(selecteFiles);
-                        const updatedFiles = [...files, ...newFiles];
-
-                        setFiles(updatedFiles)
-
-                        onChange(toFileList(updatedFiles))
-                    }}
-                    className="hidden"
-                />
-            </div>
         </div>
     )
 }

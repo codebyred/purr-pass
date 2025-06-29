@@ -1,7 +1,9 @@
-import { getProducts } from "@/actions/product-action";
+import { getProductsByCategoryId } from "@/actions/product-action";
 import ProductCard from "@/components/user/product-card";
 import SubCategoryCard from "@/components/user/sub-cat-card";
-import { findCategoryWithChildren, normalizeCategoryKey } from "@/lib/utils"
+import { flatCategories } from "@/lib/data";
+import { NestedCategory } from "@/lib/types";
+import { buildNestedCategories, findCategoryWithChildren, normalizeCategoryKey } from "@/lib/utils"
 import React from "react";
 
 type PageProps = {
@@ -16,11 +18,13 @@ export default async function CategoryPage({ params }: PageProps) {
 
   const categoryNormalized = normalizeCategoryKey(category);
 
-  const match = findCategoryWithChildren(categoryNormalized);
+  const nestedCategories: NestedCategory[] = buildNestedCategories(flatCategories);
+
+  const match = findCategoryWithChildren(categoryNormalized, nestedCategories);
 
   if (!match) {
 
-    const products = await getProducts(categoryNormalized);
+    const products = await getProductsByCategoryId(categoryNormalized);
 
     return (
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 items-stretch">
