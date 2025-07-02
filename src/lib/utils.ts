@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { flatCategories } from "./data"
-import { NestedCategory, CategoryInputValue, FlatCategory, ProductFormData, Product } from "./types";
+import { NestedCategory, CategoryInputValue, FlatCategory, ProductFormData} from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -111,7 +111,7 @@ export function buildNestedCategories(flatCategories: FlatCategory[]) {
 
 }
 
-function slugify(text: string): string {
+export function slugify(text: string): string {
   return text
     .toLowerCase()
     .replace(/ /g, "-")
@@ -134,50 +134,17 @@ export function convertProductDataToFormData(data: ProductFormData) {
   return formData;
 }
 
-export function convertProductFormDataToProduct(
-  formData: ProductFormData
-): Product {
-
-
-  const productId = slugify(formData.name);
-
-  const prices = formData.variants.map((v) => v.price ?? 0);
-  const affectsPrice = new Set(prices).size > 1;
-
-  const variants = formData.variants.map((variant, index) => ({
-    sku: generateSku(formData, [variant.value]),
-    values: {
-      [formData.variantType]: variant.value,
-    },
-    currPrice: variant.price ?? 0,
-    originalPrice: variant.price ?? 0,
-    isDefault: variant.isDefault,
-  }));
-
-  const variantOptions = [
-    {
-      name: formData.variantType,
-      affectsPrice, 
-      values: formData.variants.map((v) => v.value),
-    },
-  ];
-
-  return {
-    id: productId,
-    name: formData.name,
-    brand: formData.brand,
-    category: {
-      id: formData.categoryId,
-      name: "",
-    },
-    images: [], 
-    variantOptions,
-    variants,
-  };
-}
 
 export function generateSku(productFormData: ProductFormData, other:string[]) {
   const shortName = productFormData.name.replace(/\s+/g, "").substring(0, 3).toUpperCase();
   return `${shortName}-${other.join("-")}`
 }
 
+export async function tryCatch<T>(promise: Promise<T>): Promise<[Error | null, T | null]> {
+  try {
+    const data = await promise;
+    return [null, data];
+  } catch (err) {
+    return [err as Error, null];
+  }
+}

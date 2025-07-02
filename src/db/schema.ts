@@ -1,37 +1,6 @@
-import mongoose, { Schema, Document, model } from "mongoose";
+import mongoose, { Schema, model, InferSchemaType, models } from "mongoose";
 
-interface VariantOption {
-  name: string;
-  affectsPrice: boolean;
-  values: string[];
-}
-
-interface Variant {
-  sku: string;
-  values?: Record<string, string>;
-  currPrice: number;
-  originalPrice: number;
-  isDefault: boolean;
-}
-
-interface Image {
-  src: string;
-  alt: string;
-}
-
-interface Product extends Document {
-  name: string;
-  brand: string;
-  category: {
-    id: string;
-    name: string;
-  };
-  images: Image[];
-  variantOptions: VariantOption[];
-  variants: Variant[];
-}
-
-const VariantOptionSchema = new Schema<VariantOption>(
+const variantOptionSchema = new Schema(
   {
     name: { type: String, required: true },
     affectsPrice: { type: Boolean, required: true },
@@ -40,7 +9,7 @@ const VariantOptionSchema = new Schema<VariantOption>(
   { _id: false }
 );
 
-const VariantSchema = new Schema<Variant>(
+const variantSchema = new Schema(
   {
     sku: { type: String, required: true },
     values: { type: Map, of: String, required: false },
@@ -51,7 +20,7 @@ const VariantSchema = new Schema<Variant>(
   { _id: false }
 );
 
-const ImageSchema = new Schema<Image>(
+const imageSchema = new Schema(
   {
     src: { type: String, required: true },
     alt: { type: String, required: true },
@@ -59,17 +28,47 @@ const ImageSchema = new Schema<Image>(
   { _id: false }
 );
 
-const ProductSchema = new Schema<Product>({
-  name: { type: String, required: true },
-  brand: { type: String, required: true },
-  category: {
-    id: { type: String, required: true },
-    name: { type: String, required: true },
+const categorySchema = new Schema(
+  {
+    slug: { type: String, required: true, unique: true },
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    parentId: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      default: null,
+    },
   },
-  images: { type: [ImageSchema], required: true },
-  variantOptions: { type: [VariantOptionSchema], required: true },
-  variants: { type: [VariantSchema], required: true },
-});
+  {
+    timestamps: true,
+    collection: "categories",
+  }
+);
+
+const productSchema = new Schema(
+  {
+    slug: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    brand: { type: String, required: true },
+    category: categorySchema,
+    images: { type: [imageSchema], required: true },
+    variantOptions: { type: [variantOptionSchema], required: true },
+    variants: { type: [variantSchema], required: true },
+  },
+  {
+    timestamps: true,
+    collection: "products",
+  }
+);
 
 
-export const ProductModel = model<Product>("Product", ProductSchema);
+export type Product = InferSchemaType<typeof productSchema>;
+export type Category = InferSchemaType<typeof categorySchema>
+export const ProductModel =
+  mongoose.models.Product as mongoose.Model<Product> || model<Product>("Product", productSchema);
+
+export const CategoryModel =
+  mongoose.models.Category as mongoose.Model<Category> || model<Category>("Category", categorySchema);
