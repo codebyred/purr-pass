@@ -13,6 +13,8 @@ export const variantFormDataSchema = z.object({
   isDefault: z.boolean(),
 });
 
+export type VariantFormData = z.infer<typeof variantFormDataSchema>
+
 export const productFormDataSchema = z.object({
   name: z.string(),
   brand: z.string(),

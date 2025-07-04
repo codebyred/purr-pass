@@ -119,10 +119,6 @@ export function convertProductDataToFormData(data: ProductFormData): FormData {
   return formData;
 }
 
-export function generateSku(productFormData: ProductFormData, other:string[]) {
-  const shortName = productFormData.name.replace(/\s+/g, "").substring(0, 3).toUpperCase();
-  return `${shortName}-${other.join("-")}`
-}
 
 export async function tryCatch<T>(promise: Promise<T>): Promise<[Error | null, T | null]> {
   try {
