@@ -9,26 +9,25 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { flatCategories } from "@/lib/data"
 import type { NestedCategory, ProductFormData } from "@/lib/types"
 import { ControllerRenderProps } from "react-hook-form"
 import { IoIosArrowDown } from "react-icons/io";
-import { buildNestedCategories, getCategoryNameById } from "@/lib/utils"
 
 type FormItemCategoryDropDownProps = {
+    categories: NestedCategory[]
     field: ControllerRenderProps<ProductFormData, "categoryId">
 }
 
 export default function FormItemCategoryDropDown(props: FormItemCategoryDropDownProps) {
-    const { field: { value, onChange } } = props;
 
-    const categories = buildNestedCategories(flatCategories);
+    const { field: { value, onChange }, categories } = props;
+    const [catName, setCatName] = React.useState("");
 
     return (
-        <div className="flex w-full border-2 rounded-lg items-center sm:justify-center overflow-hidden py-1">
+        <div className="flex w-full border-2 rounded-lg items-center sm:justify-center overflow-hidden">
             <DropdownMenu>
                 <DropdownMenuTrigger className="flex justify-center items-center gap-2 w-full rounded-lg py-1 px-2">
-                    {getCategoryNameById(value) || <span className="flex items-center text-gray-500 gap-2 text-nowrap text-sm">Select Category <IoIosArrowDown /></span>}
+                    {catName || <span className="flex items-center text-gray-500 gap-2 text-nowrap text-sm">Select Category <IoIosArrowDown /></span>}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     {categories.map((category, index) => (
@@ -36,6 +35,7 @@ export default function FormItemCategoryDropDown(props: FormItemCategoryDropDown
                             key={index}
                             item={category}
                             onSelect={(val) => onChange(val)}
+                            setCatName={setCatName}
                         />
                     ))}
                 </DropdownMenuContent>
@@ -47,9 +47,10 @@ export default function FormItemCategoryDropDown(props: FormItemCategoryDropDown
 type SubMenuProps = {
     item: NestedCategory
     onSelect: (value: string) => void
+    setCatName:(value: string) => void
 }
 
-function SubMenu({ item, onSelect }: SubMenuProps) {
+function SubMenu({ item, onSelect, setCatName }: SubMenuProps) {
     const { id, name, children } = item;
 
     if (children && children.length > 0) {
@@ -62,6 +63,7 @@ function SubMenu({ item, onSelect }: SubMenuProps) {
                             key={index}
                             item={child}
                             onSelect={onSelect}
+                            setCatName={setCatName}
                         />
                     ))}
                 </DropdownMenuSubContent>
@@ -71,7 +73,7 @@ function SubMenu({ item, onSelect }: SubMenuProps) {
 
     return (
         <DropdownMenuItem
-            onClick={() => onSelect(id)}
+            onClick={() => {onSelect(id); setCatName(name)}}
             className="w-full"
         >
             {name}

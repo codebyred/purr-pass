@@ -7,6 +7,7 @@ import {
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/app/globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
     src: "../fonts/GeistVF.woff",
@@ -39,7 +40,7 @@ export default function CategoryLayout({
                         {children}
                     </SidebarInset>
                 </SidebarProvider>
-
+                <Toaster position="top-center"/>
             </body>
         </html>
     )

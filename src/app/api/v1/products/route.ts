@@ -1,8 +1,9 @@
 import { connectToDatabase } from "@/db/mongoose";
-import { ProductModel } from "@/db/schema";
+import { CategoryModel, ProductModel } from "@/db/schema";
 import { tryCatch } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import httpStatus from "http-status";
+import mongoose from "mongoose";
 
 export async function GET(request: NextRequest) {
   const [dbError, conn] = await tryCatch(connectToDatabase());
@@ -15,7 +16,28 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const [queryError, queryResult] = await tryCatch(ProductModel.find().lean());
+  const { searchParams } = new URL(request.url);
+
+  const categoryId = searchParams.get("categoryId")
+
+  const categorySlug = searchParams.get("categorySlug");
+
+  let query = {};
+
+  if (categoryId) {
+    query = { category: new mongoose.Types.ObjectId(categoryId) };
+  } else if (categorySlug) {
+    const category = await CategoryModel.findOne({ slug: categorySlug }).lean();
+    if (!category) {
+      return NextResponse.json(
+        { error: "Category not found" },
+        { status: httpStatus.NOT_FOUND }
+      );
+    }
+    query = { category: category._id };
+  }
+
+  const [queryError, queryResult] = await tryCatch(ProductModel.find(query).populate("category").lean());
 
   if (queryError || !queryResult) {
     return NextResponse.json(
@@ -25,10 +47,16 @@ export async function GET(request: NextRequest) {
   };
 
   return NextResponse.json(
-    { products: queryResult.map(({_id, ...rest})=>({
-      id: _id,
-      ...rest
-    })) },
+    {
+      products: queryResult.map(({ _id:prodId, category:{_id:catId, ...catRest}, ...prodRest }) => ({
+        id: prodId,
+        category: {
+          id: catId,
+          ...catRest
+        },
+        ...prodRest
+      }))
+    },
     { status: httpStatus.OK }
   );
 }

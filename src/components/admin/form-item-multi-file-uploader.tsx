@@ -3,10 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { MdDeleteForever } from "react-icons/md";
-import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
-import { ProductForm } from "@/lib/types";
 import { FaImages } from "react-icons/fa";
 
 type MultiFileUploaderProps<T  extends FieldValues> = {

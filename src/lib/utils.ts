@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { flatCategories } from "./data"
-import { NestedCategory, CategoryInputValue, FlatCategory, ProductFormData} from "./types";
+import { NestedCategory, CategoryInputValue, ProductFormData} from "./types";
+import { Category } from "@/lib/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -15,20 +15,8 @@ export function findCategoryWithChildren(category: string, categories: NestedCat
       return match;
     }
   }
-
   return null;
-
 }
-
-export function normalizeCategoryKey(slug: string): string {
-
-  return slug
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-
-}
-
 
 export function generateBreadcrumbItems(pathname: string) {
   const segments = pathname.split('/').filter(Boolean)
@@ -41,7 +29,6 @@ export function generateBreadcrumbItems(pathname: string) {
 
     return { name, link: href }
   })
-
   return [{ name: 'Home', link: '/' }, ...breadcrumbItems]
 }
 
@@ -64,20 +51,12 @@ export function extractLeafCategories(categories: NestedCategory[]) {
   return result;
 }
 
-export function getCategoryNameById(id: string | undefined | null): string | undefined {
-  if (!id) return undefined;
-
-  const category = flatCategories.find(cat => cat.id === id);
-  return category?.name;
-}
-
-export function buildNestedCategories(flatCategories: FlatCategory[]) {
-
+export function buildNestedCategories(categories: Category[]) {
   const categoryMap = new Map<string, NestedCategory>();
-
-  flatCategories.map((cat) => (
+  categories.map((cat) => (
     categoryMap.set(cat.id, {
       id: cat.id,
+      slug: cat.slug,
       name: cat.name,
       link: "",
       children: []
@@ -86,18 +65,18 @@ export function buildNestedCategories(flatCategories: FlatCategory[]) {
 
   const nestedCategories: NestedCategory[] = [];
 
-  flatCategories.forEach((cat) => {
+  categories.forEach((cat) => {
 
     const node = categoryMap.get(cat.id);
 
     if (!node) return;
 
     if (cat.parentId) {
-      const parent = categoryMap.get(cat.parentId);
+      const parent = categoryMap.get(cat.parentId.toString());
 
       if (!parent || !parent.children) return;
 
-      node.link = `${parent.link}/${slugify(node.name)}`;
+      node.link = `${parent.link}/${node.slug}}`;
 
       parent.children.push(node);
 
@@ -108,7 +87,6 @@ export function buildNestedCategories(flatCategories: FlatCategory[]) {
   })
 
   return nestedCategories
-
 }
 
 export function slugify(text: string): string {
@@ -117,8 +95,14 @@ export function slugify(text: string): string {
     .replace(/ /g, "-")
     .replace(/[^\w-]+/g, "");
 }
+export function normalizeSlug(slug: string): string {
+  return slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
 
-export function convertProductDataToFormData(data: ProductFormData) {
+export function convertProductDataToFormData(data: ProductFormData): FormData {
   const formData = new FormData();
 
   formData.append("name", data.name);
@@ -126,14 +110,14 @@ export function convertProductDataToFormData(data: ProductFormData) {
   formData.append("categoryId", data.categoryId);
   formData.append("variantType", data.variantType);
 
-  if (Array.isArray(data.images) && data.images instanceof FileList) {
-    Array.from(data.images)
+  for (let i = 0; i < data.images.length; i++) {
+    formData.append("images", data.images[i]);
   }
 
   formData.append("variants", JSON.stringify(data.variants));
+
   return formData;
 }
-
 
 export function generateSku(productFormData: ProductFormData, other:string[]) {
   const shortName = productFormData.name.replace(/\s+/g, "").substring(0, 3).toUpperCase();

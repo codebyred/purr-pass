@@ -22,7 +22,7 @@ const variantSchema = new Schema(
 
 const imageSchema = new Schema(
   {
-    src: { type: String, required: true },
+    url: { type: String, required: true },
     alt: { type: String, required: true },
   },
   { _id: false }
@@ -53,7 +53,11 @@ const productSchema = new Schema(
     slug: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     brand: { type: String, required: true },
-    category: categorySchema,
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
     images: { type: [imageSchema], required: true },
     variantOptions: { type: [variantOptionSchema], required: true },
     variants: { type: [variantSchema], required: true },
@@ -65,8 +69,8 @@ const productSchema = new Schema(
 );
 
 
-export type Product = InferSchemaType<typeof productSchema>;
-export type Category = InferSchemaType<typeof categorySchema>
+type Product = InferSchemaType<typeof productSchema>;
+type Category = InferSchemaType<typeof categorySchema>;
 export const ProductModel =
   mongoose.models.Product as mongoose.Model<Product> || model<Product>("Product", productSchema);
 

@@ -15,18 +15,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import MultiFileUploader from "./form-item-multi-file-uploader";
 import { productFormDataSchema } from "@/lib/types";
-import type { ProductFormData } from "@/lib/types";
+import type { Image, NestedCategory, ProductFormData } from "@/lib/types";
 import { Input } from "../ui/input";
 import React from "react";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
 import { MdLibraryAdd } from "react-icons/md";
-import VariantInput from "./form-item-variant-input";
-import CategoryInput from "./form-item-category-dropdown";
 import FormItemCategoryDropDown from "./form-item-category-dropdown";
 import FormItemVariantInput from "./form-item-variant-input";
 import { createProduct } from "@/actions/product-action";
-import { convertProductDataToFormData } from "@/lib/utils";
+import { convertProductDataToFormData, tryCatch } from "@/lib/utils";
+import { toast } from "sonner"
 
 const defaultValues: ProductFormData = {
     name: "",
@@ -44,7 +43,13 @@ const defaultValues: ProductFormData = {
     ]
 }
 
-export default function CreateProductForm() {
+type FormCreateProductProps = {
+    categories: NestedCategory[]
+}
+
+export default function CreateProductForm(props: FormCreateProductProps) {
+
+    const {categories} = props;
 
     const form = useForm<ProductFormData>({
         mode: "onSubmit",
@@ -55,8 +60,15 @@ export default function CreateProductForm() {
     const { fields, append, remove } = useFieldArray<ProductFormData>({ name: "variants", control: form.control })
 
     const onSubmit = async (data: ProductFormData) => {
-        const productFormData = convertProductDataToFormData(data);
-        await createProduct(productFormData);
+
+        const formData = convertProductDataToFormData(data);
+        
+        const [error, result] = await tryCatch(createProduct(formData));
+
+        if(error || !result){
+            toast(`Could not create product due to ${error?.message}`)
+        }
+
     }
 
     return (
@@ -114,7 +126,7 @@ export default function CreateProductForm() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Product Category</FormLabel>
-                                        <FormItemCategoryDropDown field={field} />
+                                        <FormItemCategoryDropDown field={field} categories={categories}/>
                                         <FormDescription>
                                             Select Product Category
                                         </FormDescription>
@@ -128,7 +140,7 @@ export default function CreateProductForm() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Product Variant</FormLabel>
-                                        <VariantInput field={field} />
+                                        <FormItemVariantInput field={field} />
                                         <FormDescription>
                                             Select Product Variant. E.g: Weight, Color
                                         </FormDescription>
