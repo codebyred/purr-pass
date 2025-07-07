@@ -14,6 +14,7 @@ type ProductProps = {
 export default function Product(props: ProductProps) {
 
     const { product } = props;
+    console.log(product)
     const defaultProductVariant = product.variants.find((variant) => variant.isDefault);
     const [activeVariant, setActiveVariant] = useState(defaultProductVariant);
     const [sku, setSku] = useState(defaultProductVariant?.sku);
@@ -32,7 +33,7 @@ export default function Product(props: ProductProps) {
                 <h1 className="font-semibold text-xl">{product?.name}</h1>
                 <div className="grid grid-cols-2 grid-rows-2 gap-2 text-xs text-gray-500 font-medium">
                     <span>SKU: {sku}</span>
-                    <span>Category: {product.category.name}</span>
+                    <span>Category: {product.category}</span>
                     <span>Brand: {product.brand}</span>
                 </div>
                 <div>

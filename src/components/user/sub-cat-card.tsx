@@ -1,3 +1,4 @@
+"use client"
 import {
     Card,
     CardContent,
@@ -10,15 +11,27 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Url } from "next/dist/shared/lib/router/router"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 type SubCategoryCardProps = {
-    subCategoryName: string,
-    subCategoryLink: Url
+    subCategory: {
+        id: string;
+        slug: string;
+        name: string;
+        parentId: string | null;
+        createdAt?: Date | undefined;
+        updatedAt?: Date | undefined;
+    }
 }
 
 export default function SubCategoryCard(props: SubCategoryCardProps) {
 
-    const { subCategoryName, subCategoryLink } = props;
+    const { subCategory } = props;
+    const pathname = usePathname();
+
+    const subCategoryLink = pathname.endsWith("/")
+        ? `${pathname}${subCategory.slug}`
+        : `${pathname}/${subCategory.slug}`;
 
     return (
         <Link href={subCategoryLink}>
@@ -32,7 +45,7 @@ export default function SubCategoryCard(props: SubCategoryCardProps) {
                             height={150}
                         />
                     </div>
-                    <CardTitle className="text-center group-hover:text-primary transition">{subCategoryName}</CardTitle>
+                    <CardTitle className="text-center group-hover:text-primary transition">{subCategory.name}</CardTitle>
                 </CardHeader>
             </Card>
         </Link>

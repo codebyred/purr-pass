@@ -1,10 +1,11 @@
-import { getProductsByCategoryId } from "@/actions/product-action";
+
+import { getProducts} from "@/actions/product-action";
+import {getCategories, getCategory, getSubCategories} from "@/actions/category-action"
 import ProductCard from "@/components/user/product-card";
 import SubCategoryCard from "@/components/user/sub-cat-card";
-import { flatCategories } from "@/lib/data";
 import { NestedCategory } from "@/lib/types";
-import { buildNestedCategories, findCategoryWithChildren, normalizeCategoryKey } from "@/lib/utils"
 import React from "react";
+import { tryCatch } from "@/lib/utils";
 
 type PageProps = {
   params: {
@@ -16,20 +17,17 @@ export default async function CategoryPage({ params }: PageProps) {
 
   const { category } = params;
 
-  const categoryNormalized = normalizeCategoryKey(category);
+  const [subCategoriesError, subCategoriesResult] = await tryCatch(getSubCategories({categorySlug: category}));
 
-  const nestedCategories: NestedCategory[] = buildNestedCategories(flatCategories);
+  if (subCategoriesError || !subCategoriesResult) {
 
-  const match = findCategoryWithChildren(categoryNormalized, nestedCategories);
-
-  if (!match) {
-
-    const products = await getProductsByCategoryId(categoryNormalized);
+    const [productsError, productsResult] = await tryCatch(getProducts({categorySlug: category}));
 
     return (
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 items-stretch">
         {
-          products.map((product, index) => (
+          !productsError && productsResult && productsResult.products &&
+          productsResult.products.map((product, index) => (
             <React.Fragment key={index}>
               <ProductCard product={product} />
             </React.Fragment>
@@ -43,9 +41,9 @@ export default async function CategoryPage({ params }: PageProps) {
 
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 items-stretch">
       {
-        match && match.children && match.children.map((child, index) => (
+        subCategoriesResult && subCategoriesResult.subCategories.map((subCategory, index) => (
           <React.Fragment key={index}>
-            <SubCategoryCard subCategoryName={child.name} subCategoryLink={child.link} />
+            <SubCategoryCard subCategory={subCategory} />
           </React.Fragment>
         ))
       }

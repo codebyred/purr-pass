@@ -7,7 +7,7 @@ import { Input } from "../ui/input";
 import { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
 import { FaImages } from "react-icons/fa";
 
-type MultiFileUploaderProps<T  extends FieldValues> = {
+type MultiFileUploaderProps<T extends FieldValues> = {
     field: ControllerRenderProps<T, Path<T>>
 }
 
@@ -20,8 +20,14 @@ export default function MultiFileUploader<T extends FieldValues>(props: MultiFil
     const imageInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        onChange(toFileList(files));
-    }, [files]);
+        if (!value || value.length === 0) {
+            setFiles([]);
+            return;
+        }
+        //onChange(toFileList(files));
+        const filesArray = Array.from(value as FileList);
+        setFiles(filesArray);
+    }, [value]);
 
     function removeFile(fileIndex: number) {
         setFiles((prevFiles) => {

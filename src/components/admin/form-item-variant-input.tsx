@@ -10,40 +10,62 @@ import {
 import { variantOptions } from "@/lib/data"
 import { ProductFormData } from "@/lib/types"
 import React from "react"
-import { ControllerRenderProps } from "react-hook-form"
-import { FormControl } from "../ui/form"
+import { ControllerRenderProps, UseFormReturn } from "react-hook-form"
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 
 type VariantInputProps = {
-    field: ControllerRenderProps<ProductFormData, "variantType">
+    form: UseFormReturn<ProductFormData>
+    fieldName: keyof ProductFormData
+    | `images.${string}`
+    | `variants.${number}`
+    | `variants.${number}.value`
+    | `variants.${number}.discount`
+    | `variants.${number}.price`
+    | `variants.${number}.isDefault`,
+
+    fieldLabel: string
+    fieldDescription: string
 }
 
 export default function FormItemVariantInput(props: VariantInputProps) {
 
-    const { field: { value, onChange } } = props;
+    const { form, fieldName, fieldLabel, fieldDescription } = props
 
     return (
-        <Select
-            onValueChange={onChange}
-            defaultValue={value}
-        >
-            <FormControl>
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a Variant" />
-                </SelectTrigger>
-            </FormControl>
-            <SelectContent>
-                <SelectGroup>
-                    <SelectLabel>Variants</SelectLabel>
-                    {
-                        variantOptions.map((option) => (
-                            <React.Fragment key={option.name}>
-                                <SelectItem value={option.value}>{option.name}</SelectItem>
-                            </React.Fragment>
-
-                        ))
-                    }
-                </SelectGroup>
-            </SelectContent>
-        </Select>
+        <FormField
+            control={form.control}
+            name={fieldName}
+            render={({ field: { value, onChange } }) => (
+                <FormItem>
+                    <FormLabel>{fieldLabel}</FormLabel>
+                    <Select
+                        onValueChange={onChange}
+                        value={value}
+                    >
+                        <FormControl>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Select a Variant" />
+                            </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Variants</SelectLabel>
+                                {
+                                    variantOptions.map((option) => (
+                                        <React.Fragment key={option.name}>
+                                            <SelectItem value={option.value}>{option.name}</SelectItem>
+                                        </React.Fragment>
+                                    ))
+                                }
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    <FormDescription>
+                        {fieldDescription}
+                    </FormDescription>
+                    <FormMessage />
+                </FormItem>
+            )
+            } />
     )
 }

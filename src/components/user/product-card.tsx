@@ -27,10 +27,10 @@ export default function ProductCard(props: ProductCardProps) {
             <Link href={`/product/${id}`}>
                 <CardHeader>
                     <div className="w-full flex items-center justify-center">
-                        <div className="aspect-square max-w-[150px] overflow-hidden rounded-md">
+                        <div className="aspect-square max-w-[150px] h-[150px] w-[150px] overflow-hidden rounded-md">
                             <Image
                                 className="object-contain w-full h-full transition duration-300 ease-in-out group-hover:scale-110 group-hover:brightness-115"
-                                src={images[0]}
+                                src={images[0].url}
                                 alt="sub category image"
                                 width={150}
                                 height={150}

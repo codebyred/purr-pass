@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import MultiFileUploader from "./form-item-multi-file-uploader";
+import MultiFileUploader from "./multi-file-uploader";
 import { productFormDataSchema } from "@/lib/types";
 import type { Image, NestedCategory, ProductFormData } from "@/lib/types";
 import { Input } from "../ui/input";
@@ -26,6 +26,8 @@ import FormItemVariantInput from "./form-item-variant-input";
 import { createProduct } from "@/actions/product-action";
 import { convertProductDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
+import FormItemInput from "./form-item-input";
+import FormItemImages from "./form-item-images";
 
 const defaultValues: ProductFormData = {
     name: "",
@@ -49,7 +51,7 @@ type FormCreateProductProps = {
 
 export default function CreateProductForm(props: FormCreateProductProps) {
 
-    const {categories} = props;
+    const { categories } = props;
 
     const form = useForm<ProductFormData>({
         mode: "onSubmit",
@@ -62,13 +64,16 @@ export default function CreateProductForm(props: FormCreateProductProps) {
     const onSubmit = async (data: ProductFormData) => {
 
         const formData = convertProductDataToFormData(data);
-        
-        const [error, result] = await tryCatch(createProduct(formData));
 
-        if(error || !result){
-            toast(`Could not create product due to ${error?.message}`)
-        }
+        // const [error, result] = await tryCatch(createProduct(formData));
 
+        // if(error || !result || !result.message){
+        //     toast(`Could not create product due to ${error?.message}`);
+        //     return;
+        // }
+        //toast(`${result.message}`);
+        console.log(data);
+        form.reset();
     }
 
     return (
@@ -86,67 +91,31 @@ export default function CreateProductForm(props: FormCreateProductProps) {
                         </p>
                     </div>
                     <div className="bg-white px-4 py-4 shadow-md rounded-sm">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Product Name</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Write Your Product name
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                        <FormItemInput
+                            form={form}
+                            fieldName="name"
+                            fieldLabel="Product Name"
+                            fieldDescription="Write Your Product name"
                         />
-                        <FormField
-                            control={form.control}
-                            name="brand"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Product Brand</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Write Product's brand name
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                        <FormItemInput
+                            form={form}
+                            fieldName="brand"
+                            fieldLabel="Product Brand"
+                            fieldDescription="Write name of brand"
                         />
                         <div className="gap-4 sm:grid sm:grid-cols-2 flex flex-col">
-
-                            <FormField
-                                control={form.control}
-                                name="categoryId"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Product Category</FormLabel>
-                                        <FormItemCategoryDropDown field={field} categories={categories}/>
-                                        <FormDescription>
-                                            Select Product Category
-                                        </FormDescription>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                            <FormItemCategoryDropDown
+                                form={form}
+                                fieldName={"categoryId"}
+                                categories={categories}
+                                fieldLabel="Product Category"
+                                fieldDescription="Select Product Category"
                             />
-                            <FormField
-                                control={form.control}
-                                name="variantType"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Product Variant</FormLabel>
-                                        <FormItemVariantInput field={field} />
-                                        <FormDescription>
-                                            Select Product Variant. E.g: Weight, Color
-                                        </FormDescription>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                            <FormItemVariantInput
+                                form={form}
+                                fieldName={"variantType"}
+                                fieldLabel="Product Variant"
+                                fieldDescription="Select Product Variant"
                             />
                         </div>
                     </div>
@@ -159,21 +128,11 @@ export default function CreateProductForm(props: FormCreateProductProps) {
                         </p>
                     </div>
                     <div className="bg-white px-4 py-4 shadow-md rounded-sm">
-                        <FormField
-                            control={form.control}
-                            name="images"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Product Images</FormLabel>
-                                    <FormControl>
-                                        <MultiFileUploader field={field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Choose images for your product
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                        <FormItemImages
+                            form={form}
+                            fieldName={"images"}
+                            fieldLabel={"Product Images"}
+                            fieldDescription="Select images for your product"
                         />
                     </div>
                 </div>

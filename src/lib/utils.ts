@@ -76,7 +76,7 @@ export function buildNestedCategories(categories: Category[]) {
 
       if (!parent || !parent.children) return;
 
-      node.link = `${parent.link}/${node.slug}}`;
+      node.link = `${parent.link}/${node.slug}`;
 
       parent.children.push(node);
 

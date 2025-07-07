@@ -4,7 +4,10 @@ import Image from "next/image"
 import { useState } from "react"
 
 type ProductImageProps = {
-    images: string[]
+    images: {
+        url: string
+        alt: string
+    }[]
 }
 
 export default function ProductImage(props: ProductImageProps) {
@@ -20,10 +23,10 @@ export default function ProductImage(props: ProductImageProps) {
                     images?.map((image, index) => (
                         <Image
                             key={index}
-                            src={image}
+                            src={image.url}
                             width={100}
                             height={100}
-                            alt="product image"
+                            alt={image.alt}
                             className="hover:border-2 hover:border-primary border-2"
                             onClick={()=> setImageIndex((prev)=> index)}
                         />
@@ -32,7 +35,7 @@ export default function ProductImage(props: ProductImageProps) {
             </div>
             <div>
                 <Image
-                    src={images[imageIndex]}
+                    src={images[imageIndex].url}
                     width={480}
                     height={480}
                     alt="product image"

@@ -1,4 +1,4 @@
-"use client"
+
 import * as React from "react"
 import {
   DropdownMenu,
@@ -9,21 +9,18 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { flatCategories } from "@/lib/data"
 import Link from "next/link"
 import { FaAngleDown } from "react-icons/fa";
-import { motion } from "framer-motion"
-import { FlatCategory, NestedCategory } from "@/lib/types"
-import { buildNestedCategories } from "@/lib/utils"
+import { NestedCategory } from "@/lib/types"
+import { buildNestedCategories, tryCatch } from "@/lib/utils"
+import {getCategories} from "@/actions/category-action";
 
-export default function Nav() {
+export default async function Nav() {
 
-  const categories = buildNestedCategories(flatCategories);
+  const [error, result] = await tryCatch(getCategories());
 
   return (
-    <motion.div
-      initial={{ y: -500, z: -1 }}
-      animate={{ y: 0, z: 10 }}
+    <div
       className="hidden sm:w-full sm:flex sm:items-center sm:justify-center sm:border-b-2 py-2">
       <ul className="list-none flex items-center gap-4">
         <Link href={"/"}>
@@ -32,7 +29,8 @@ export default function Nav() {
           </li>
         </Link>
         {
-          categories.map((cat, index) => (
+          !error && result && result.categories &&
+          result.categories.map((cat, index) => (
             <li
               key={index}
             >
@@ -42,20 +40,20 @@ export default function Nav() {
                   <FaAngleDown />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    {
-                      cat.children && cat.children.map((child, index) => (
-                        <React.Fragment key={index}>
-                          <SubMenu item={{...child}} />
-                        </React.Fragment>
-                      ))
-                    }
+                  {
+                    cat.children && cat.children.map((child, index) => (
+                      <React.Fragment key={index}>
+                        <SubMenu item={{ ...child }} />
+                      </React.Fragment>
+                    ))
+                  }
                 </DropdownMenuContent>
               </DropdownMenu>
             </li>
           ))
         }
       </ul>
-    </motion.div>
+    </div>
   )
 }
 
@@ -65,15 +63,15 @@ type NavItemProps = {
 
 function SubMenu(props: NavItemProps) {
   const { name, link, children } = props.item;
-  return children ? (
+  return children && children.length > 0 ? (
     <DropdownMenuSub>
-      <Link href={link??""} className="font-medium"><DropdownMenuSubTrigger>{name}</DropdownMenuSubTrigger></Link>
+      <Link href={link ?? ""} className="font-medium"><DropdownMenuSubTrigger>{name}</DropdownMenuSubTrigger></Link>
       <DropdownMenuSubContent>
         <DropdownMenuSub>
           {
             children.map((child, index) => (
               <React.Fragment key={index}>
-                  <SubMenu item={{...child}} />
+                <SubMenu item={{ ...child }} />
               </React.Fragment>
             ))
           }
@@ -81,7 +79,7 @@ function SubMenu(props: NavItemProps) {
       </DropdownMenuSubContent>
     </DropdownMenuSub>
 
-  ) : (  
-    <DropdownMenuItem asChild className="font-medium"><Link href={link?? ""}>{name}</Link></DropdownMenuItem>
+  ) : (
+    <DropdownMenuItem asChild className="font-medium"><Link href={link ?? ""}>{name}</Link></DropdownMenuItem>
   );
 }
