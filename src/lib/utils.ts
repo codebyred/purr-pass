@@ -7,16 +7,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function findCategoryWithChildren(category: string, categories: NestedCategory[]) {
+// export function findCategoryWithChildren(category: string, categories: NestedCategory[]) {
 
-  for (const mainCat of categories) {
-    const match = mainCat.children?.find((child) => child.name === category);
-    if (match && match.children) {
-      return match;
-    }
-  }
-  return null;
-}
+//   for (const mainCat of categories) {
+//     const match = mainCat.children?.find((child) => child.name === category);
+//     if (match && match.children) {
+//       return match;
+//     }
+//   }
+//   return null;
+// }
 
 export function generateBreadcrumbItems(pathname: string) {
   const segments = pathname.split('/').filter(Boolean)
@@ -131,4 +131,8 @@ export async function tryCatch<T>(promise: Promise<T>): Promise<[Error | null, T
   } catch (err) {
     return [err as Error, null];
   }
+}
+
+export async function sleep(delay: number) {
+  await new Promise((resolve) => setTimeout(resolve, delay));
 }

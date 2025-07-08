@@ -10,7 +10,7 @@ export async function getProducts({
 }: {
   categoryId?: string;
   categorySlug?: string;
-}) {
+} = {}) {
   const url = categoryId
     ? `${process.env.API_URI}/products?categoryId=${categoryId}`
     : categorySlug

@@ -17,7 +17,7 @@ import MultiFileUploader from "./multi-file-uploader";
 import { productFormDataSchema } from "@/lib/types";
 import type { Image, NestedCategory, ProductFormData } from "@/lib/types";
 import { Input } from "../ui/input";
-import React from "react";
+import React, { useState } from "react";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
 import { MdLibraryAdd } from "react-icons/md";
@@ -28,6 +28,7 @@ import { convertProductDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
 import FormItemInput from "./form-item-input";
 import FormItemImages from "./form-item-images";
+import { sleep } from "@/lib/utils"
 
 const defaultValues: ProductFormData = {
     name: "",
@@ -65,14 +66,13 @@ export default function CreateProductForm(props: FormCreateProductProps) {
 
         const formData = convertProductDataToFormData(data);
 
-        // const [error, result] = await tryCatch(createProduct(formData));
+        const [error, result] = await tryCatch(createProduct(formData));
 
-        // if(error || !result || !result.message){
-        //     toast(`Could not create product due to ${error?.message}`);
-        //     return;
-        // }
-        //toast(`${result.message}`);
-        console.log(data);
+        if(error || !result || !result.message){
+            toast(`Could not create product due to ${error?.message}`);
+            return;
+        }
+        toast(`${result.message}`);
         form.reset();
     }
 
@@ -260,10 +260,11 @@ export default function CreateProductForm(props: FormCreateProductProps) {
                 }
                 <div className="flex items-center">
                     <Button
+                        disabled={form.formState.isSubmitting}
                         className="flex items-center gap-2 w-full py-4 text-lg font-semibold"
                         type="submit">
                         <MdLibraryAdd className="text-2xl font-bold" />
-                        Save
+                        {form.formState.isSubmitting?"Saving ...":"Save"}
                     </Button>
                 </div>
 

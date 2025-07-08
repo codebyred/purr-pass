@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ColumnDef } from "@tanstack/react-table"
 
 export const fileSchema = z
   .any()
@@ -26,7 +27,6 @@ export const productFormDataSchema = z.object({
 
 export type ProductFormData = z.infer<typeof productFormDataSchema>;
 
-// Variant Option Schema
 export const variantOptionSchema = z.object({
   name: z.string(),
   affectsPrice: z.boolean(),
@@ -34,7 +34,6 @@ export const variantOptionSchema = z.object({
 });
 export type VariantOption = z.infer<typeof variantOptionSchema>;
 
-// Variant Schema
 export const variantSchema = z.object({
   sku: z.string(),
   values: z.record(z.string()).optional(),
@@ -44,14 +43,12 @@ export const variantSchema = z.object({
 });
 export type Variant = z.infer<typeof variantSchema>;
 
-// Image Schema
 export const imageSchema = z.object({
   url: z.string(),
   alt: z.string(),
 });
 export type Image = z.infer<typeof imageSchema>;
 
-// Category Schema
 export const categorySchema = z.object({
   id: z.string(),
   slug: z.string(),
@@ -62,20 +59,22 @@ export const categorySchema = z.object({
 });
 export type Category = z.infer<typeof categorySchema>;
 
-// Product Schema
 export const productSchema = z.object({
   id: z.string(),
   slug: z.string(),
   name: z.string(),
   brand: z.string(),
-  category: z.string(),
+  category: z.union([z.string(), categorySchema]),
   images: z.array(imageSchema),
   variantOptions: z.array(variantOptionSchema),
   variants: z.array(variantSchema),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 });
+
 export type Product = z.infer<typeof productSchema>;
+
+export type PartialProduct = Pick<Product, "id" | "name" | "brand" | "category">;
 
 export type VariantInputValue = {
   name: string,
@@ -94,4 +93,7 @@ export type NestedCategory = {
   link: string;
   children?: NestedCategory[];
 };
+
+
+
 

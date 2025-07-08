@@ -1,0 +1,20 @@
+import { getProducts } from "@/actions/product-action";
+import { DataTable } from "@/components/admin/data-table";
+import { productTableColumns } from "@/components/admin/product-table-columns";
+import { Category, PartialProduct } from "@/lib/types";
+import { tryCatch } from "@/lib/utils";
+
+
+export default async function ProductList() {
+
+    const [error, productsResult] = await tryCatch(getProducts());
+
+    return (
+        <div className="flex flex-col px-4 sm:px-24">
+            {
+                productsResult && productsResult.products &&
+                <DataTable columns={productTableColumns} data={productsResult.products as PartialProduct[]} />
+            }
+        </div>
+    )
+}
