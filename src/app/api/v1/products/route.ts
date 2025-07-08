@@ -4,8 +4,27 @@ import { tryCatch } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import httpStatus from "http-status";
 import mongoose from "mongoose";
+import { Product } from "@/lib/types";
+
+const defaultPagination = {
+  page: 1,
+  limit: 2
+}
 
 export async function GET(request: NextRequest) {
+
+  type Result = {
+    prev?: {
+      page: number,
+      limit: number
+    },
+    next?: {
+      page: number,
+      limit: number
+    },
+    products: {}
+  }
+
   const [dbError, conn] = await tryCatch(connectToDatabase());
 
   if (dbError) {
@@ -16,11 +35,19 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const { searchParams } = new URL(request.url);
+  const { searchParams } = request.nextUrl;
 
   const categoryId = searchParams.get("categoryId")
-
   const categorySlug = searchParams.get("categorySlug");
+
+  let page = Number(searchParams.get("page"));
+  let limit = Number(searchParams.get("limit"));
+
+  page = !isNaN(page) && page > 0 ? page : defaultPagination.page;
+  limit = !isNaN(limit) && limit > 0 ? limit : defaultPagination.limit;
+
+
+  const startIndex = (page - 1) * limit;
 
   let query = {};
 
@@ -36,27 +63,64 @@ export async function GET(request: NextRequest) {
     }
     query = { category: category._id };
   }
+  const [countError, count] = await tryCatch(ProductModel.countDocuments(query));
 
-  const [queryError, queryResult] = await tryCatch(ProductModel.find(query).populate("category").lean());
+  if (countError || !count) {
+    console.error(countError)
+    return NextResponse.json(
+      { error: "Could not get products count" },
+      { status: httpStatus.INTERNAL_SERVER_ERROR }
+    )
+  }
+
+  const [queryError, queryResult] = await tryCatch(ProductModel
+    .find(query)
+    .limit(limit)
+    .skip(startIndex)
+    .populate("category")
+    .lean()
+    .exec()
+  );
 
   if (queryError || !queryResult) {
+    console.error(queryError)
     return NextResponse.json(
-      { error: "Could Get Categories" },
+      { error: `Could Get Product` },
       { status: httpStatus.INTERNAL_SERVER_ERROR }
     )
   };
 
-  return NextResponse.json(
-    {
-      products: queryResult.map(({ _id:prodId, category:{_id:catId, ...catRest}, ...prodRest }) => ({
-        id: prodId,
-        category: {
-          id: catId,
-          ...catRest
-        },
-        ...prodRest
-      }))
+  const products = queryResult.map(({ _id: prodId, category: { _id: catId, ...catRest }, ...prodRest }) => ({
+    id: prodId,
+    category: {
+      id: catId,
+      ...catRest
     },
+    ...prodRest
+  }));
+
+  const result: Result = {
+    products: products
+  }
+
+
+
+  if (limit < count) {
+    result.next = {
+      page: page + 1,
+      limit
+    }
+  }
+
+  if (startIndex > 0) {
+    result.prev = {
+      page: page - 1,
+      limit
+    }
+  }
+
+  return NextResponse.json(
+    result,
     { status: httpStatus.OK }
   );
 }
