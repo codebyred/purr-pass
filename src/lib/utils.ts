@@ -32,26 +32,29 @@ export function generateBreadcrumbItems(pathname: string) {
   return [{ name: 'Home', link: '/' }, ...breadcrumbItems]
 }
 
-export function extractLeafCategories(categories: NestedCategory[]) {
-  const seen = new Set<string>();
-  const result: CategoryInputValue[] = [];
+// export function extractLeafCategories(categories: NestedCategory[]) {
+//   const seen = new Set<string>();
+//   const result: CategoryInputValue[] = [];
 
-  function traverse(nodes: NestedCategory[]) {
-    for (const node of nodes) {
-      if (node.children && node.children.length > 0) {
-        traverse(node.children);
-      } else if (node.name && !seen.has(node.name)) {
-        seen.add(node.name);
-        result.push({ name: node.name, value: node.name });
-      }
-    }
-  }
+//   function traverse(nodes: NestedCategory[]) {
+//     for (const node of nodes) {
+//       if (node.children && node.children.length > 0) {
+//         traverse(node.children);
+//       } else if (node.name && !seen.has(node.name)) {
+//         seen.add(node.name);
+//         result.push({ name: node.name, value: node.name });
+//       }
+//     }
+//   }
 
-  traverse(categories);
-  return result;
-}
+//   traverse(categories);
+//   return result;
+// }
 
 export function buildNestedCategories(categories: Category[]) {
+  /*
+  funtion to build nested category path for ui navigation
+  */
   const categoryMap = new Map<string, NestedCategory>();
   categories.map((cat) => (
     categoryMap.set(cat.id, {
@@ -95,6 +98,7 @@ export function slugify(text: string): string {
     .replace(/ /g, "-")
     .replace(/[^\w-]+/g, "");
 }
+
 export function normalizeSlug(slug: string): string {
   return slug
     .split("-")
