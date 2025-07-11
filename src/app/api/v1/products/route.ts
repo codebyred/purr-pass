@@ -5,11 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import httpStatus from "http-status";
 import mongoose from "mongoose";
 import { Product } from "@/lib/types";
-
-const defaultPagination = {
-  page: 1,
-  limit: 2
-}
+import { defaultPagination } from "@/lib/data";
 
 export async function GET(request: NextRequest) {
 
@@ -46,12 +42,17 @@ export async function GET(request: NextRequest) {
   page = !isNaN(page) && page > 0 ? page : defaultPagination.page;
   limit = !isNaN(limit) && limit > 0 ? limit : defaultPagination.limit;
 
-
   const startIndex = (page - 1) * limit;
 
   let query = {};
 
   if (categoryId) {
+    if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+      return NextResponse.json(
+        { error: "Invalid categoryId" },
+        { status: httpStatus.BAD_REQUEST }
+      );
+    }
     query = { category: new mongoose.Types.ObjectId(categoryId) };
   } else if (categorySlug) {
     const category = await CategoryModel.findOne({ slug: categorySlug }).lean();

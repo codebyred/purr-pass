@@ -15,6 +15,21 @@ The backend API is built with **Next.js API routes**. These endpoints connect wi
 
 ---
 
+### **/categories**
+
+#### **GET /api/v1/categories**
+**Request:**
+```http
+GET /api/v1/products?categoryId=<categoryId>&categorySlug=<categorySlug>&page=<page>&limit=<limit>
+```
+| Parameter    | Type   | Required | Description                                |
+| ------------ | ------ | -------- | ------------------------------------------ |
+| parentId   | string | No       | Filter products by category ID.            |
+| page         | number | No       | Page number for pagination (default: 1).   |
+| limit        | number | No       | Number of products per page (default: 2). |
+
+**Response:**
+
 ### **/products**
 
 #### **GET /api/v1/products**
@@ -22,8 +37,16 @@ The backend API is built with **Next.js API routes**. These endpoints connect wi
 **Request:**
 
 ```http
-GET /api/v1/products
+GET /api/v1/products?categoryId=<categoryId>&categorySlug=<categorySlug>&page=<page>&limit=<limit>
 ```
+| Parameter    | Type   | Required | Description                                |
+| ------------ | ------ | -------- | ------------------------------------------ |
+| categoryId   | string | No       | Filter products by category ID.            |
+| categorySlug | string | No       | Filter products by category slug.          |
+| page         | number | No       | Page number for pagination (default: 1).   |
+| limit        | number | No       | Number of products per page (default: 2). |
+
+  Note: You can use either categoryId or categorySlug for filtering by category.
 
 **Response:**
 ```
@@ -126,9 +149,16 @@ GET /api/v1/products
       "updatedAt": "2025-07-04T17:51:46.160Z",
       "__v": 0
     }
-  ]
+  ],
+  "next": {
+    "page": 3,
+    "limit": 2
+  },
+  "prev": {
+      "page": 1,
+      "limit": 2
+  }
 }
-
 ```
 
 #### **POST /api/v1/products**

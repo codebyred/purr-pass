@@ -3,6 +3,7 @@ import { CategoryModel } from "@/db/schema";
 import { tryCatch } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import httpStatus from "http-status"
+import { defaultPagination } from "@/lib/data";
 
 export async function GET(request: NextRequest) {
 
@@ -14,6 +15,22 @@ export async function GET(request: NextRequest) {
             { error: "Failed to connect to database" },
             { status: httpStatus.INTERNAL_SERVER_ERROR }
         );
+    }
+
+    const { searchParams } = request.nextUrl;
+
+    const parentId = searchParams.get("parentId")
+
+    let page = Number(searchParams.get("page"));
+    let limit = Number(searchParams.get("limit"));
+
+    page = !isNaN(page) && page > 0 ? page : defaultPagination.page;
+    limit = !isNaN(limit) && limit > 0 ? limit : defaultPagination.limit;
+
+    let query = {}
+
+    if (parentId){
+        query = {parentId}
     }
 
     const [queryError, queryResult] = await tryCatch(CategoryModel.find().lean());
