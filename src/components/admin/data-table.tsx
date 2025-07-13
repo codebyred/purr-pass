@@ -17,16 +17,29 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from "../ui/button"
+import { useRouter } from "next/navigation"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
-    data: TData[]
+    data: TData[],
+    prev?: {
+        page: number,
+        limit: number,
+    },
+    next?: {
+        page: number,
+        limit: number
+    }
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
+    prev,
+    next
 }: DataTableProps<TData, TValue>) {
+
+    const router = useRouter();
 
     const table = useReactTable({
         data,
@@ -80,16 +93,20 @@ export function DataTable<TData, TValue>({
                 <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
+                    onClick={() => {
+                        router.push(`?page=${prev && prev.page}`)
+                    }}
+                    disabled={!prev}
                 >
                     Previous
                 </Button>
                 <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
+                    onClick={() => {
+                        router.push(`?page=${next && next.page}`)
+                    }}
+                    disabled={!next}
                 >
                     Next
                 </Button>

@@ -7,17 +7,38 @@ import { slugify, tryCatch } from "@/lib/utils";
 export async function getProducts({
   categoryId,
   categorySlug,
+  page
 }: {
   categoryId?: string;
   categorySlug?: string;
+  page?: number
 } = {}) {
-  const url = categoryId
-    ? `${process.env.API_URI}/products?categoryId=${categoryId}`
-    : categorySlug
-      ? `${process.env.API_URI}/products?categorySlug=${categorySlug}`
-      : `${process.env.API_URI}/products`;
+    type Result = {
+    prev?: {
+      page: number,
+      limit: number
+    },
+    next?: {
+      page: number,
+      limit: number
+    },
+    products: Product[]
+  }
 
-  const [fetchError, fetchResponse] = await tryCatch(fetch(url));
+  const baseUrl = `${process.env.API_URI}/products`;
+  let finalUrl:string = baseUrl;
+
+  if(categoryId){
+    finalUrl = finalUrl.concat(`?categoryId=${categoryId}`)
+  }else if(categorySlug){
+    finalUrl = finalUrl.concat(`?categoryId=${categoryId}`)
+  }
+
+  if(page) {
+    finalUrl = finalUrl.concat(`?page=${page}`);
+  }
+
+  const [fetchError, fetchResponse] = await tryCatch(fetch(finalUrl, {method:"GET"}));
 
   if (fetchError || !fetchResponse || !fetchResponse.ok) {
     console.error(fetchError?.message);
@@ -26,12 +47,24 @@ export async function getProducts({
 
   const [parseError, productsData] = await tryCatch(fetchResponse.json());
 
+
   if (parseError || !productsData || !productsData.products) {
     console.error(parseError?.message);
     throw new Error("Could not parse products data");
   }
 
-  return { products:productsData.products as Product[]};
+  const result: Result = {
+    products:productsData.products as Product[]
+  }
+
+  if(productsData.next){
+    result.next = productsData.next;
+  }
+  if(productsData.prev) {
+    result.prev = productsData.prev;
+  }
+
+  return result;
 }
 
 export async function getProduct({
