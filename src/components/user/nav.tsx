@@ -9,11 +9,22 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from "@/components/ui/navigation-menu"
 import Link from "next/link"
 import { FaAngleDown } from "react-icons/fa";
 import { NestedCategory } from "@/lib/types"
 import { buildNestedCategories, tryCatch } from "@/lib/utils"
-import {getCategories} from "@/actions/category-action";
+import { getCategories } from "@/actions/category-action";
+import NavMenu from "./nav-menu";
 
 export default async function Nav() {
 
@@ -21,38 +32,30 @@ export default async function Nav() {
 
   return (
     <div
-      className="hidden sm:w-full sm:flex sm:items-center sm:justify-center sm:border-b-2 py-2">
-      <ul className="list-none flex items-center gap-4">
-        <Link href={"/"}>
-          <li className="hover:bg-primary/20 font-medium rounded-lg py-1 px-2">
-            Home
-          </li>
-        </Link>
-        {
-          !error && result && result.categories &&
-          result.categories.map((cat, index) => (
-            <li
-              key={index}
-            >
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-2 hover:bg-primary/20 font-medium rounded-lg py-1 px-2">
-                  {cat.name}
-                  <FaAngleDown />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {
-                    cat.children && cat.children.map((child, index) => (
-                      <React.Fragment key={index}>
-                        <SubMenu item={{ ...child }} />
-                      </React.Fragment>
-                    ))
-                  }
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </li>
-          ))
-        }
-      </ul>
+      className="hidden sm:w-full sm:flex sm:items-center sm:justify-between sm:border-b-2 py-2 sm:px-24">
+      <div>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="bg-primary text-gray-100 px-4 py-2 rounded-full flex items-center gap-2 font-medium ">
+            
+              All categories
+            
+            <FaAngleDown />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {
+              result && result.categories.map((child, index) => (
+                <React.Fragment key={index}>
+                  <SubMenu item={{ ...child }} />
+                </React.Fragment>
+              ))
+            }
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      {result && <NavMenu categories={result.categories}/>}
+      <div className="px-8">
+
+      </div>
     </div>
   )
 }

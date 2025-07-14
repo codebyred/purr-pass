@@ -3,7 +3,8 @@
 import { Category, categorySchema } from "@/lib/types";
 import { buildNestedCategories, tryCatch } from "@/lib/utils";
 
-export async function getCategories() {
+
+export async function getCategories({ nested }: { nested: boolean } = { nested: false }) {
     const [fetchError, fetchResponse] = await tryCatch(fetch(`${process.env.API_URI}/categories`));
 
     if (fetchError || !fetchResponse) {
@@ -18,9 +19,14 @@ export async function getCategories() {
         throw new Error("Could not parse categories data");
     }
 
-    const categories = buildNestedCategories(categoriesData.categories);
+    if (nested) {
+        const categories = buildNestedCategories(categoriesData.categories);
 
-    return { categories };
+        return { categories };
+    }
+
+    return { categories: categoriesData.categories }
+
 }
 
 export async function getCategory({
@@ -38,7 +44,9 @@ export async function getCategory({
         ? `${process.env.API_URI}/categories/${categoryId}`
         : `${process.env.API_URI}/categories/slug/${categorySlug}`;
 
-    const [fetchError, fetchResponse] = await tryCatch(fetch(endpoint));
+    const [fetchError, fetchResponse] = await tryCatch(fetch(endpoint, {
+        cache: "no-store"
+    }));
 
     if (fetchError || !fetchResponse) {
         console.error("Fetch Category Error", fetchError);

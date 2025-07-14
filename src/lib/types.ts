@@ -9,6 +9,7 @@ export const fileSchema = z
 
 export const variantFormDataSchema = z.object({
   value: z.string(),
+  stock: z.number().optional(),
   discount: z.number().optional(),
   price: z.number().optional(),
   isDefault: z.boolean(),
@@ -16,10 +17,20 @@ export const variantFormDataSchema = z.object({
 
 export type VariantFormData = z.infer<typeof variantFormDataSchema>
 
+export const categoryFomDataSchema = z.object({
+    name: z.string(),
+    parentId: z.string().nullable(),
+    featured: z.boolean(),
+    image: z.any()
+})
+
+export type CategoryFormData = z.infer<typeof categoryFomDataSchema>
+
 export const productFormDataSchema = z.object({
   name: z.string(),
   brand: z.string(),
   categoryId: z.string(),
+  featured: z.boolean(),
   images: fileSchema,
   variantType: z.string(),
   variants: z.array(variantFormDataSchema),
@@ -54,6 +65,7 @@ export const categorySchema = z.object({
   slug: z.string(),
   name: z.string(),
   parentId: z.string().nullable(),
+  image:imageSchema,
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 });

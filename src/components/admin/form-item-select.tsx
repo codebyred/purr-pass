@@ -10,26 +10,26 @@ import {
 import { variantOptions } from "@/lib/data"
 import { ProductFormData } from "@/lib/types"
 import React from "react"
-import { ControllerRenderProps, UseFormReturn } from "react-hook-form"
+import { ControllerRenderProps, FieldValues, Path, UseFormReturn } from "react-hook-form"
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 
-type VariantInputProps = {
-    form: UseFormReturn<ProductFormData>
-    fieldName: keyof ProductFormData
-    | `images.${string}`
-    | `variants.${number}`
-    | `variants.${number}.value`
-    | `variants.${number}.discount`
-    | `variants.${number}.price`
-    | `variants.${number}.isDefault`,
-
-    fieldLabel: string
-    fieldDescription: string
+type SelectItem = {
+    id: string,
+    name: string
 }
 
-export default function FormItemVariantInput(props: VariantInputProps) {
+type VariantInputProps<T extends FieldValues> = {
+    form: UseFormReturn<T>
+    fieldName: Path<T>
+    fieldLabel: string
+    fieldDescription: string
+    selectItems: SelectItem[],
+    selectValue: keyof SelectItem
+}
 
-    const { form, fieldName, fieldLabel, fieldDescription } = props
+export default function FormItemVariantInput<T extends FieldValues>(props: VariantInputProps<T>) {
+
+    const { form, fieldName, fieldLabel, fieldDescription, selectItems, selectValue } = props
 
     return (
         <FormField
@@ -51,9 +51,9 @@ export default function FormItemVariantInput(props: VariantInputProps) {
                             <SelectGroup>
                                 <SelectLabel>Variants</SelectLabel>
                                 {
-                                    variantOptions.map((option) => (
-                                        <React.Fragment key={option.name}>
-                                            <SelectItem value={option.value}>{option.name}</SelectItem>
+                                    selectItems.map((item) => (
+                                        <React.Fragment key={item.id}>
+                                            <SelectItem value={item[selectValue]}>{item.name}</SelectItem>
                                         </React.Fragment>
                                     ))
                                 }

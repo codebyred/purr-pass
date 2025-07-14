@@ -84,7 +84,7 @@ export function buildNestedCategories(categories: Category[]) {
       parent.children.push(node);
 
     } else {
-      node.link = `/product-category`;
+      node.link = `/product-category/${node.slug}`;
       nestedCategories.push(node)
     }
   })

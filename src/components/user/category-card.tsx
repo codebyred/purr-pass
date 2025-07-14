@@ -25,7 +25,6 @@ const fadeInAnimationVariant = {
 
 export default function CategoryCard(props: CategoryCardProps) {
 
-
     return (
         <Link href={props.categoryLink}>
             <motion.div
@@ -39,13 +38,13 @@ export default function CategoryCard(props: CategoryCardProps) {
                 custom={props.index}
                 className="flex flex-col items-center gap-2 group"
             >
-                <div className="border-2 rounded-full w-[14.063rem] h-[14.063] aspect-square overflow-hidden max-w-[225px] group-hover:-translate-y-2 transition group-hover:scale-110">
+                <div className="border-2 rounded-sm aspect-square overflow-hidden max-w-[225px]">
                     <Image
                         src={"/cat.png"}
                         width={225}
                         height={225}
                         alt={"featured category image"}
-                        className="object-contain"
+                        className="object-contain group-hover:-translate-y-2 transition group-hover:scale-110"
                     />
                 </div>
                 <p className="group-hover:text-primary font-medium">{props.categoryName}</p>

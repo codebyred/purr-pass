@@ -46,60 +46,58 @@ export default function MultiFileUploader<T extends FieldValues>(props: MultiFil
 
 
     return (
-        <div className="flex flex-col">
-            <div className="flex flex-wrap items-center justify-center gap-2">
-                {
-                    files.map((file, index) => (
-                        <div
-                            key={file.name}
-                            className="relative h-[180px] w-[180px] rounded-sm border-2"
-                        >
-                            <div
-                                className="absolute -right-2 -top-2 w-6 h-6 flex items-center justify-center border-2 border-gray-900 rounded-full bg-gray-100"
-                                onClick={() => removeFile(index)}
-                            >
-                                <MdDeleteForever className="text-red-500 text-lg" />
-                            </div>
-                            <Image
-                                src={URL.createObjectURL(file)}
-                                width={180}
-                                height={180}
-                                alt="product image"
-                                className="object-contain aspect-square "
-                            />
-                        </div>
-                    ))
-                }
-                <div className="h-[180px] w-[180px] border-2 border-primary rounded-sm flex items-center justify-center">
-                    <button
-                        type="button"
-                        onClick={() => triggerFileInput()}
-                        className="flex flex-col items-center gap-2"
+
+        <div className="flex flex-wrap items-center gap-2">
+            {
+                files.map((file, index) => (
+                    <div
+                        key={file.name}
+                        className="relative h-[180px] w-[180px] rounded-sm border-2"
                     >
-                        <FaImages />
-                        Upload Image
-                    </button>
-                    <Input
-                        ref={imageInputRef}
-                        type="file"
-                        multiple
-                        {...rest}
-                        onChange={(e) => {
-                            const selecteFiles = e.target.files;
-                            if (!selecteFiles || selecteFiles.length === 0) return;
+                        <div
+                            className="absolute -right-2 -top-2 w-6 h-6 flex items-center justify-center border-2 border-gray-900 rounded-full bg-gray-100"
+                            onClick={() => removeFile(index)}
+                        >
+                            <MdDeleteForever className="text-red-500 text-lg" />
+                        </div>
+                        <Image
+                            src={URL.createObjectURL(file)}
+                            width={180}
+                            height={180}
+                            alt="product image"
+                            className="object-contain aspect-square "
+                        />
+                    </div>
+                ))
+            }
+            <div className="h-[180px] w-[180px] border-2 border-primary rounded-sm flex items-center justify-center">
+                <button
+                    type="button"
+                    onClick={() => triggerFileInput()}
+                    className="flex flex-col items-center gap-2"
+                >
+                    <FaImages />
+                    Upload Image
+                </button>
+                <Input
+                    ref={imageInputRef}
+                    type="file"
+                    multiple
+                    {...rest}
+                    onChange={(e) => {
+                        const selecteFiles = e.target.files;
+                        if (!selecteFiles || selecteFiles.length === 0) return;
 
-                            const newFiles = Array.from(selecteFiles);
-                            const updatedFiles = [...files, ...newFiles];
+                        const newFiles = Array.from(selecteFiles);
+                        const updatedFiles = [...files, ...newFiles];
 
-                            setFiles(updatedFiles)
+                        setFiles(updatedFiles)
 
-                            onChange(toFileList(updatedFiles))
-                        }}
-                        className="hidden"
-                    />
-                </div>
+                        onChange(toFileList(updatedFiles))
+                    }}
+                    className="hidden"
+                />
             </div>
-
         </div>
     )
 }

@@ -1,26 +1,20 @@
 import { ProductFormData } from "@/lib/types"
-import { UseFormReturn } from "react-hook-form"
+import { UseFormReturn, FieldValues, Path } from "react-hook-form"
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Input } from "../ui/input"
 
-type FormItemInputProps = {
-    form: UseFormReturn<ProductFormData>
-    fieldName: keyof ProductFormData
-        | `images.${string}`
-        | `variants.${number}`
-        | `variants.${number}.value`
-        | `variants.${number}.discount`
-        | `variants.${number}.price`
-        | `variants.${number}.isDefault`,
-    
+type FormItemInputProps<T extends FieldValues> = {
+    form: UseFormReturn<T>
+    fieldName: Path<T>
     fieldLabel: string
     fieldDescription: string
+    inputType: "text" | "checkbox"
 }
 
-export default function FormItemInput(props: FormItemInputProps) {
+export default function FormItemInput<T extends FieldValues>(props: FormItemInputProps<T>) {
 
-    const { form, fieldName, fieldLabel, fieldDescription} = props;
-    
+    const { form, fieldName, fieldLabel, fieldDescription, inputType } = props;
+
     return (
         <FormField
             control={form.control}
@@ -29,7 +23,7 @@ export default function FormItemInput(props: FormItemInputProps) {
                 <FormItem>
                     <FormLabel>{fieldLabel}</FormLabel>
                     <FormControl>
-                        <Input type="text" {...field} />
+                        <Input type={inputType} {...field} />
                     </FormControl>
                     <FormDescription>
                         {fieldDescription}

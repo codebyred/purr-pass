@@ -3,6 +3,7 @@ import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { CiGrid42 } from "react-icons/ci";
 import { FaBox } from "react-icons/fa6";
 import { FaListOl } from "react-icons/fa";
+import { MdCategory } from "react-icons/md";
 
 export const heroBanners = [
   {
@@ -30,6 +31,21 @@ export const adminSidebarItem = [
   {
     group: "Product Management",
     items: [
+      {
+        title: "Category",
+        url: "/admin/category",
+        icon: MdCategory,
+        items: [
+          {
+            title: "List",
+            url: "/admin/category/list"
+          },
+          {
+            title: "Create",
+            url: "/admin/category/create"
+          }
+        ]
+      },
       {
         title: "Products",
         url: "/admin/product",
@@ -61,10 +77,12 @@ export const adminSidebarItem = [
 
 export const variantOptions = [
   {
+    id:"1",
     name: "Weight",
     value: "Weight"
   },
   {
+    id: "2",
     name: "Color",
     value: "Color"
   }

@@ -16,6 +16,7 @@ const variantSchema = new Schema(
     currPrice: { type: Number, required: true },
     originalPrice: { type: Number, required: true },
     isDefault: { type: Boolean, required: true },
+    stock: { type: Number, required: true }
   },
   { _id: false }
 );
@@ -44,6 +45,11 @@ const categorySchema = new Schema(
     image: {
       type: imageSchema,
       required: true 
+    },
+    featured: {
+      type: Boolean,
+      requried: true,
+      default: false
     }
   },
   {
@@ -61,6 +67,11 @@ const productSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Category",
       required: true,
+    },
+    featured: {
+      type: Boolean,
+      requried: true,
+      default: false
     },
     images: { type: [imageSchema], required: true },
     variantOptions: { type: [variantOptionSchema], required: true },
