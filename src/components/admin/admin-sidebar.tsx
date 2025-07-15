@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { adminSidebarItem } from "@/lib/data"
+import { adminSidebarItem } from "@/lib/const"
 
 import {
   Sidebar,

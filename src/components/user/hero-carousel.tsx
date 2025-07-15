@@ -1,7 +1,7 @@
 "use client"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { heroBanners } from "@/lib/data"
+import { heroBanners } from "@/lib/const"
 import Image from "next/image"
 
 const HeroCarousel = () => {

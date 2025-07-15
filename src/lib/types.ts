@@ -1,14 +1,19 @@
 import { z } from "zod";
-import { ColumnDef } from "@tanstack/react-table"
+import { maxFileSize } from "./const";
 
 export const fileSchema = z
   .any()
   .refine((files) => files instanceof FileList && files.length > 0, {
-    message: "At least one file is required",
-});
+    message: "At least one file is required", 
+  })
+  .refine((files)=>{
+    if(!(files instanceof FileList)) return false
+    return Array.from(files).every((file)=> file.size <= maxFileSize)
+  }, {message: "Each file must be less than or equal to 10MB"})
+
 
 export const variantFormDataSchema = z.object({
-  value: z.string(),
+  value: z.string().min(1, { message: "Variant value is required" }),
   stock: z.number().optional(),
   discount: z.number().optional(),
   price: z.number().optional(),
@@ -27,8 +32,8 @@ export const categoryFomDataSchema = z.object({
 export type CategoryFormData = z.infer<typeof categoryFomDataSchema>
 
 export const productFormDataSchema = z.object({
-  name: z.string(),
-  brand: z.string(),
+  name: z.string().min(5, { message: "Name must be at least 5 characters" }),
+  brand: z.string().min(2, { message: "Brand must be at least 2 characters" }),
   categoryId: z.string(),
   featured: z.boolean(),
   images: fileSchema,

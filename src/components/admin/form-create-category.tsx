@@ -24,7 +24,7 @@ import { createProduct } from "@/actions/product-action";
 import { convertProductDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
 import FormItemInput from "./form-item-input";
-import FormItemImages from "./form-item-multi-image-uploader";
+import FormItemImages from "./form-item-image-uploader";
 import { sleep } from "@/lib/utils"
 import { categoryFomDataSchema } from "@/lib/types";
 import type { CategoryFormData } from "@/lib/types"

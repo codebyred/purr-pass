@@ -25,10 +25,10 @@ import { createProduct } from "@/actions/product-action";
 import { convertProductDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
 import FormItemInput from "./form-item-input";
-import FormItemImages from "./form-item-multi-image-uploader";
+import FormItemImages from "./form-item-image-uploader";
 import { sleep } from "@/lib/utils"
 import FormItemSelect from "./form-item-select";
-import { variantOptions } from "@/lib/data";
+import { variantOptions } from "@/lib/const";
 
 const defaultValues: ProductFormData = {
     name: "",
@@ -145,6 +145,7 @@ export default function CreateProductForm(props: FormCreateProductProps) {
                         fieldName={"images"}
                         fieldLabel={"Product Images"}
                         fieldDescription="Select images for your product"
+                        multiple={true}
                     />
                 </div>
                 {

@@ -7,16 +7,17 @@ import { Input } from "../ui/input"
 import Image from "next/image"
 import { MdDeleteForever } from "react-icons/md"
 
-type FormItemImagesProps<T extends FieldValues> = {
+type FormItemImageUploaderProps<T extends FieldValues> = {
     form: UseFormReturn<T>
     fieldName: Path<T>
     fieldLabel: string
     fieldDescription: string
+    multiple?: boolean
 }
 
-export default function FormItemImages<T extends FieldValues>(props: FormItemImagesProps<T>) {
+export default function FormItemImageUploader<T extends FieldValues>(props: FormItemImageUploaderProps<T>) {
 
-    const { form, fieldName, fieldLabel, fieldDescription } = props;
+    const { form, fieldName, fieldLabel, fieldDescription, multiple } = props;
 
     const imageInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -48,27 +49,31 @@ export default function FormItemImages<T extends FieldValues>(props: FormItemIma
                     <FormControl>
                         <div className="flex flex-wrap items-center gap-2">
                             {
-                                files && Array.from(files).map((file, index) => (
-                                    <div
-                                        key={file.name}
-                                        className="relative h-[180px] w-[180px] rounded-sm border-2"
-                                    >
+                                files && Array.from(multiple ? files : files && [files[0]]).map((file, index) => (
+                                     typeof File !== "undefined" && file instanceof File && (
                                         <div
-                                            className="absolute -right-2 -top-2 w-6 h-6 flex items-center justify-center border-2 border-gray-900 rounded-full bg-gray-100 cursor-pointer"
-                                            onClick={() => removeFile(index, onChange)}
+                                            key={file.name}
+                                            className="relative h-[180px] w-[180px] rounded-sm border-2"
                                         >
-                                            <MdDeleteForever className="text-red-500 text-lg" />
+                                            <div
+                                                className="absolute -right-2 -top-2 w-6 h-6 flex items-center justify-center border-2 border-gray-900 rounded-full bg-gray-100 cursor-pointer"
+                                                onClick={() => removeFile(index, onChange)}
+                                            >
+                                                <MdDeleteForever className="text-red-500 text-lg" />
+                                            </div>
+                                            <Image
+                                                src={URL.createObjectURL(file)}
+                                                width={180}
+                                                height={180}
+                                                alt="product image"
+                                                className="object-contain aspect-square"
+                                            />
+                                            <p className="text-xs text-gray-600">
+                                                {(file.size / 1024).toFixed(2)} KB
+                                            </p>
                                         </div>
-                                        <Image
-                                            src={URL.createObjectURL(file)}
-                                            width={180}
-                                            height={180}
-                                            alt="product image"
-                                            className="object-contain aspect-square"
-                                        />
-                                    </div>
-                                ))
-                            }
+                                    )
+                                ))}
                             <div className="h-[180px] w-[180px] border-2 border-primary rounded-sm flex items-center justify-center">
                                 <button
                                     type="button"
@@ -81,18 +86,20 @@ export default function FormItemImages<T extends FieldValues>(props: FormItemIma
                                 <Input
                                     ref={imageInputRef}
                                     type="file"
-                                    multiple
+                                    multiple={multiple}
                                     {...rest}
                                     onChange={(e) => {
                                         const selectedFiles = e.target.files;
                                         if (!selectedFiles || selectedFiles.length === 0) return;
-
                                         const newFiles = Array.from(selectedFiles);
-                                        const existingFiles = files ? Array.from(files) : [];
 
-                                        const updatedFiles = [...existingFiles, ...newFiles];
-
-                                        onChange(toFileList(updatedFiles));
+                                        if (multiple) {
+                                            const existingFiles = files ? Array.from(files) : [];
+                                            const updatedFiles = [...existingFiles, ...newFiles];
+                                            onChange(toFileList(updatedFiles));
+                                        } else {
+                                            onChange(toFileList(newFiles));
+                                        }
                                     }}
                                     className="hidden"
                                 />

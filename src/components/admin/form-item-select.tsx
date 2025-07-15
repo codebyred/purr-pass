@@ -7,7 +7,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { variantOptions } from "@/lib/data"
+import { variantOptions } from "@/lib/const"
 import { ProductFormData } from "@/lib/types"
 import React from "react"
 import { ControllerRenderProps, FieldValues, Path, UseFormReturn } from "react-hook-form"

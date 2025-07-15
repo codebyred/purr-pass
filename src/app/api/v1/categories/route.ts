@@ -3,7 +3,7 @@ import { CategoryModel } from "@/db/schema";
 import { tryCatch } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import httpStatus from "http-status"
-import { defaultPagination } from "@/lib/data";
+import { defaultPagination } from "@/lib/const";
 
 export async function GET(request: NextRequest) {
 

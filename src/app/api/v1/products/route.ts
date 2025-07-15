@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import httpStatus from "http-status";
 import mongoose from "mongoose";
 import { Product } from "@/lib/types";
-import { defaultPagination } from "@/lib/data";
+import { defaultPagination } from "@/lib/const";
 
 export async function GET(request: NextRequest) {
 
