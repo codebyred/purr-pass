@@ -177,6 +177,7 @@ export async function createProduct(formData: FormData) {
         currPrice: v.price || 0,
         originalPrice: v.discount ? (v.price || 0) + v.discount : v.price || 0,
         isDefault: v.isDefault,
+        stock: v.stock
       };
     }
   );

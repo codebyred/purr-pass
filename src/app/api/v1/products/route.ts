@@ -104,8 +104,6 @@ export async function GET(request: NextRequest) {
     products: products
   }
 
-
-
   if (limit < count) {
     result.next = {
       page: page + 1,

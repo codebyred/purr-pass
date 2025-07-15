@@ -44,12 +44,12 @@ export default function FormItemVariantInput<T extends FieldValues>(props: Varia
                     >
                         <FormControl>
                             <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Select a Variant" />
+                                <SelectValue placeholder={fieldDescription} />
                             </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                             <SelectGroup>
-                                <SelectLabel>Variants</SelectLabel>
+                                <SelectLabel>{fieldLabel}</SelectLabel>
                                 {
                                     selectItems.map((item) => (
                                         <React.Fragment key={item.id}>

@@ -24,7 +24,6 @@ export default function MultiFileUploader<T extends FieldValues>(props: MultiFil
             setFiles([]);
             return;
         }
-        //onChange(toFileList(files));
         const filesArray = Array.from(value as FileList);
         setFiles(filesArray);
     }, [value]);
@@ -44,9 +43,7 @@ export default function MultiFileUploader<T extends FieldValues>(props: MultiFil
         return dataTransfer.files;
     }
 
-
     return (
-
         <div className="flex flex-wrap items-center gap-2">
             {
                 files.map((file, index) => (

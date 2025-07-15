@@ -13,7 +13,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import MultiFileUploader from "./multi-file-uploader";
 import { productFormDataSchema } from "@/lib/types";
 import type { Category, Image, NestedCategory, ProductFormData } from "@/lib/types";
 import { Input } from "../ui/input";
@@ -21,13 +20,12 @@ import React, { useState } from "react";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
 import { MdLibraryAdd } from "react-icons/md";
-import FormItemCategoryDropDown from "./form-item-category-dropdown";
 import FormItemVariantInput from "./form-item-select";
 import { createProduct } from "@/actions/product-action";
 import { convertProductDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
 import FormItemInput from "./form-item-input";
-import FormItemImages from "./form-item-images";
+import FormItemImages from "./form-item-multi-image-uploader";
 import { sleep } from "@/lib/utils"
 import FormItemSelect from "./form-item-select";
 import { variantOptions } from "@/lib/data";
@@ -78,7 +76,7 @@ export default function CreateProductForm(props: FormCreateProductProps) {
         //     return;
         // }
         // toast(`${result.message}`);
-        // form.reset();
+        form.reset();
     }
 
     return (
@@ -88,21 +86,23 @@ export default function CreateProductForm(props: FormCreateProductProps) {
                 onSubmit={form.handleSubmit(onSubmit)}
             >
                 <h1 className="text-2xl font-semibold border-b-2">Create Product</h1>
-                <div className="flex flex-col bg-white px-4 py-4 shadow-md rounded-sm">
-                    <FormItemInput
-                        form={form}
-                        fieldName="name"
-                        fieldLabel="Product Name"
-                        fieldDescription="Write Your Product name"
-                        inputType="text"
-                    />
-                    <FormItemInput
-                        form={form}
-                        fieldName="brand"
-                        fieldLabel="Product Brand"
-                        fieldDescription="Write name of brand"
-                        inputType="text"
-                    />
+                <div className="flex flex-col gap-2 bg-white px-4 py-4 shadow-md rounded-sm">
+                    <div className="grid gap-2 xl:grid-cols-2 ">
+                        <FormItemInput
+                            form={form}
+                            fieldName="name"
+                            fieldLabel="Product Name"
+                            fieldDescription="Write Your Product name"
+                            inputType="text"
+                        />
+                        <FormItemInput
+                            form={form}
+                            fieldName="brand"
+                            fieldLabel="Product Brand"
+                            fieldDescription="Write name of brand"
+                            inputType="text"
+                        />
+                    </div>
                     <div className="gap-2 xl:grid xl:grid-cols-3 flex flex-col">
                         <FormItemSelect
                             form={form}

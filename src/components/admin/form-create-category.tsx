@@ -13,38 +13,45 @@ import {
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import type { Image, NestedCategory, ProductFormData } from "@/lib/types";
+import type { Category, Image, NestedCategory, ProductFormData } from "@/lib/types";
 import { Input } from "../ui/input";
-import React, { useState } from "react";
+import React, { startTransition, useEffect, useState } from "react";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
 import { MdLibraryAdd } from "react-icons/md";
-import FormItemCategoryDropDown from "./form-item-category-dropdown";
 import FormItemVariantInput from "./form-item-select";
 import { createProduct } from "@/actions/product-action";
 import { convertProductDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
 import FormItemInput from "./form-item-input";
-import FormItemImages from "./form-item-images";
+import FormItemImages from "./form-item-multi-image-uploader";
 import { sleep } from "@/lib/utils"
 import { categoryFomDataSchema } from "@/lib/types";
-import type {CategoryFormData} from "@/lib/types"
+import type { CategoryFormData } from "@/lib/types"
+import FormItemSelect from "./form-item-select";
+
 
 const defaultValues: CategoryFormData = {
     name: "",
-    parentId: null,
+    parentId: "none",
     featured: false,
     image: {} as File,
 }
 
+type FormCreateCategoryProps = {
+    categories: Category[]
+}
 
-export default function FormCreateCategory() {
+export default function FormCreateCategory(props: FormCreateCategoryProps) {
+
+    const {categories} = props;
 
     const form = useForm<CategoryFormData>({
         mode: "onSubmit",
         resolver: zodResolver(categoryFomDataSchema),
         defaultValues,
     });
+
 
     const onSubmit = async (data: CategoryFormData) => {
 
@@ -65,20 +72,28 @@ export default function FormCreateCategory() {
                 onSubmit={form.handleSubmit(onSubmit)}
             >
                 <h1 className="text-2xl font-semibold border-b-2">Create Category</h1>
-                <div className="sm:grid sm:grid-cols-2 flex flex-col">
-                    <div className="">
-                        <h2 className=" font-bold text-[20px]">Basic Info</h2>
-                        <p className="text-gray-500">
-                            Add some basic info about your product from here
-                        </p>
-                    </div>
-                    <div className="bg-white px-4 py-4 shadow-md rounded-sm">
+                <div className="flex flex-col">
+                    <div className="bg-white px-4 py-4 shadow-md rounded-sm flex gap-2 sm:items-center sm:justify-between flex-col sm:flex-row">
                         <FormItemInput
                             form={form}
                             fieldName="name"
                             fieldLabel="Category Name"
                             fieldDescription="Write Category name"
                             inputType="text"
+                        />
+                        <FormItemSelect
+                            form={form}
+                            fieldName={"parentId"}
+                            fieldLabel="Parent Category"
+                            fieldDescription="Set Parent Category"
+                            selectItems={[
+                                { id: "none", name: "No Parent" },
+                                ...categories.map((category) => ({
+                                    id: category.id,
+                                    name: category.name
+                                }))
+                            ]}
+                            selectValue="id"
                         />
                         <FormItemInput
                             form={form}
@@ -89,14 +104,14 @@ export default function FormCreateCategory() {
                         />
                     </div>
                 </div>
-               
+
                 <div className="flex items-center">
                     <Button
                         disabled={form.formState.isSubmitting}
                         className="flex items-center gap-2 w-full py-4 text-lg font-semibold"
                         type="submit">
                         <MdLibraryAdd className="text-2xl font-bold" />
-                        {form.formState.isSubmitting?"Saving ...":"Save"}
+                        {form.formState.isSubmitting ? "Saving ..." : "Save"}
                     </Button>
                 </div>
 

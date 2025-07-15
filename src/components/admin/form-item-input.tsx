@@ -23,7 +23,15 @@ export default function FormItemInput<T extends FieldValues>(props: FormItemInpu
                 <FormItem>
                     <FormLabel>{fieldLabel}</FormLabel>
                     <FormControl>
-                        <Input type={inputType} {...field} />
+                        {inputType === "checkbox" ? (
+                            <Input
+                                type="checkbox"
+                                checked={field.value}
+                                onChange={field.onChange}
+                            />
+                        ) : (
+                            <Input type={inputType} {...field} />
+                        )}
                     </FormControl>
                     <FormDescription>
                         {fieldDescription}

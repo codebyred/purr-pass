@@ -7,17 +7,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-// export function findCategoryWithChildren(category: string, categories: NestedCategory[]) {
-
-//   for (const mainCat of categories) {
-//     const match = mainCat.children?.find((child) => child.name === category);
-//     if (match && match.children) {
-//       return match;
-//     }
-//   }
-//   return null;
-// }
-
 export function generateBreadcrumbItems(pathname: string) {
   const segments = pathname.split('/').filter(Boolean)
 
@@ -31,25 +20,6 @@ export function generateBreadcrumbItems(pathname: string) {
   })
   return [{ name: 'Home', link: '/' }, ...breadcrumbItems]
 }
-
-// export function extractLeafCategories(categories: NestedCategory[]) {
-//   const seen = new Set<string>();
-//   const result: CategoryInputValue[] = [];
-
-//   function traverse(nodes: NestedCategory[]) {
-//     for (const node of nodes) {
-//       if (node.children && node.children.length > 0) {
-//         traverse(node.children);
-//       } else if (node.name && !seen.has(node.name)) {
-//         seen.add(node.name);
-//         result.push({ name: node.name, value: node.name });
-//       }
-//     }
-//   }
-
-//   traverse(categories);
-//   return result;
-// }
 
 export function buildNestedCategories(categories: Category[]) {
   /*
@@ -122,7 +92,6 @@ export function convertProductDataToFormData(data: ProductFormData): FormData {
 
   return formData;
 }
-
 
 export async function tryCatch<T>(promise: Promise<T>): Promise<[Error | null, T | null]> {
   try {
