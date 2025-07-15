@@ -1,6 +1,6 @@
 "use server"
 
-import { Category, categorySchema } from "@/lib/types";
+import { Category, categorySchema, NestedCategory } from "@/lib/types";
 import { buildNestedCategories, tryCatch } from "@/lib/utils";
 
 
@@ -22,10 +22,10 @@ export async function getCategories({ nested }: { nested: boolean } = { nested: 
     if (nested) {
         const categories = buildNestedCategories(categoriesData.categories);
 
-        return { categories };
+        return { categories: categories as NestedCategory[] };
     }
 
-    return { categories: categoriesData.categories }
+    return { categories: categoriesData.categories as Category[] }
 
 }
 
@@ -106,3 +106,34 @@ export async function getSubCategories({
         return { subCategories };
     }
 }
+
+export async function createCategory(formData: FormData) {
+    const name = formData.get("name") as string;
+    const parentId = formData.get("parentId") as string;
+    const featured = formData.get("featured") as string;
+
+    const imageFiles = formData.get("image") as File;
+    if (imageFiles.length === 0) {
+        throw new Error("At least one image is required.");
+    }
+
+    const category = {
+        slug: name.toLowerCase().split(" ").join("-"),
+        name,
+        parentId: parentId?parentId:null
+    }
+
+    console.log(category);
+
+    return {message: "Category created successfully"}
+
+}
+/*
+  id: z.string(),
+  slug: z.string(),
+  name: z.string(),
+  parentId: z.string().nullable(),
+  image:imageSchema,
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+*/

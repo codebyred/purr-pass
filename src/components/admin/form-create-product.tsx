@@ -22,7 +22,7 @@ import { FaPlus } from "react-icons/fa";
 import { MdLibraryAdd } from "react-icons/md";
 import FormItemVariantInput from "./form-item-select";
 import { createProduct } from "@/actions/product-action";
-import { convertProductDataToFormData, tryCatch } from "@/lib/utils";
+import { productFormDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
 import FormItemInput from "./form-item-input";
 import FormItemImages from "./form-item-image-uploader";
@@ -67,7 +67,7 @@ export default function CreateProductForm(props: FormCreateProductProps) {
     const onSubmit = async (data: ProductFormData) => {
 
         console.log(data);
-        // const formData = convertProductDataToFormData(data);
+        // const formData = productFormDataToFormData(data);
 
         // const [error, result] = await tryCatch(createProduct(formData));
 

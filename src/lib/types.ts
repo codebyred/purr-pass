@@ -23,10 +23,10 @@ export const variantFormDataSchema = z.object({
 export type VariantFormData = z.infer<typeof variantFormDataSchema>
 
 export const categoryFomDataSchema = z.object({
-    name: z.string(),
-    parentId: z.string().nullable(),
-    featured: z.boolean(),
-    image: z.any()
+  name: z.string(),
+  parentId: z.string().nullable(),
+  featured: z.boolean(),
+  image: z.any()
 })
 
 export type CategoryFormData = z.infer<typeof categoryFomDataSchema>

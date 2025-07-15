@@ -21,7 +21,7 @@ import { FaPlus } from "react-icons/fa";
 import { MdLibraryAdd } from "react-icons/md";
 import FormItemVariantInput from "./form-item-select";
 import { createProduct } from "@/actions/product-action";
-import { convertProductDataToFormData, tryCatch } from "@/lib/utils";
+import { categoryFormDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
 import FormItemInput from "./form-item-input";
 import FormItemImages from "./form-item-image-uploader";
@@ -29,6 +29,7 @@ import { sleep } from "@/lib/utils"
 import { categoryFomDataSchema } from "@/lib/types";
 import type { CategoryFormData } from "@/lib/types"
 import FormItemSelect from "./form-item-select";
+import { createCategory } from "@/actions/category-action";
 
 
 const defaultValues: CategoryFormData = {
@@ -44,7 +45,7 @@ type FormCreateCategoryProps = {
 
 export default function FormCreateCategory(props: FormCreateCategoryProps) {
 
-    const {categories} = props;
+    const { categories } = props;
 
     const form = useForm<CategoryFormData>({
         mode: "onSubmit",
@@ -55,14 +56,15 @@ export default function FormCreateCategory(props: FormCreateCategoryProps) {
 
     const onSubmit = async (data: CategoryFormData) => {
 
-        // const [error, result] = await tryCatch(createProduct(formData));
+        const formData = categoryFormDataToFormData(data);
+        const [error, result] = await tryCatch(createCategory(formData));
 
-        // if(error || !result || !result.message){
-        //     toast(`Could not create product due to ${error?.message}`);
-        //     return;
-        // }
-        // toast(`${result.message}`);
-        // form.reset();
+        if(error || !result || !result.message){
+            toast(`Could not create product due to ${error?.message}`);
+            return;
+        }
+        toast(`${result.message}`);
+        form.reset();
     }
 
     return (
@@ -72,7 +74,7 @@ export default function FormCreateCategory(props: FormCreateCategoryProps) {
                 onSubmit={form.handleSubmit(onSubmit)}
             >
                 <h1 className="text-2xl font-semibold border-b-2">Create Category</h1>
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-2">
                     <div className="bg-white px-4 py-4 shadow-md rounded-sm flex gap-2 sm:items-center sm:justify-between flex-col sm:flex-row">
                         <FormItemInput
                             form={form}
@@ -101,6 +103,14 @@ export default function FormCreateCategory(props: FormCreateCategoryProps) {
                             fieldLabel="Featured"
                             fieldDescription="Add to featured product"
                             inputType="checkbox"
+                        />
+                    </div>
+                    <div className="bg-white px-4 py-4 shadow-md rounded-sm">
+                        <FormItemImages
+                            form={form}
+                            fieldName={"image"}
+                            fieldLabel={"Product Images"}
+                            fieldDescription="Select images for your product"
                         />
                     </div>
                 </div>

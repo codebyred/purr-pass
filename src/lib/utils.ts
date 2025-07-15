@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { NestedCategory, CategoryInputValue, ProductFormData} from "./types";
+import { NestedCategory, CategoryInputValue, ProductFormData, CategoryFormData} from "./types";
 import { Category } from "@/lib/types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -76,7 +76,7 @@ export function normalizeSlug(slug: string): string {
     .join(" ");
 }
 
-export function convertProductDataToFormData(data: ProductFormData): FormData {
+export function productFormDataToFormData(data: ProductFormData): FormData {
   const formData = new FormData();
 
   formData.append("name", data.name);
@@ -89,6 +89,23 @@ export function convertProductDataToFormData(data: ProductFormData): FormData {
   }
 
   formData.append("variants", JSON.stringify(data.variants));
+
+  return formData;
+}
+
+export function categoryFormDataToFormData(data: CategoryFormData) {
+  const formData = new FormData();
+
+  if (data.parentId && data.parentId != "none") {
+    formData.append("parentId", data.parentId);
+  }
+  formData.append("name", data.name);
+  
+  formData.append("featured", String(data.featured));
+
+  if (data.image instanceof FileList && data.image.length > 0) {
+    formData.append("image", data.image[0]);
+  }
 
   return formData;
 }

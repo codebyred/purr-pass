@@ -20,7 +20,7 @@ The database store the categories as flat arrays, the sub categories contains pa
 This function creates nesting using the parentId and creates categories and sub categories for navigation
 in the ui.
 
-## function convertProductDataToFormData(data: ProductFormData): FormData 
+## function productFormDataToFormData(data: ProductFormData): FormData 
 
 To simplify admin product form, a different schema is used for Product named ProductFormData. This is a js
 object not actual form Data. So we use this function to convert the schema to actual FormData

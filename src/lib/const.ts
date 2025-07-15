@@ -47,7 +47,7 @@ export const adminSidebarItem = [
         ]
       },
       {
-        title: "Products",
+        title: "Product",
         url: "/admin/product",
         icon: FaBox,
         items: [
@@ -58,6 +58,14 @@ export const adminSidebarItem = [
           {
             title: "Create",
             url: "/admin/product/create"
+          },
+          {
+            title: "Variant",
+            url: "/admin/product/variant"
+          },
+          {
+            title: "Featured",
+            url: "/admin/product/featured"
           }
         ]
       }

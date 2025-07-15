@@ -28,7 +28,7 @@ export default function NavMenu(props: NavMenuProps) {
                     </NavigationMenuItem>
                     {
                         props.categories.map((cat, index) => (
-                            <NavigationMenuItem>
+                            <NavigationMenuItem key={index}>
                                 <NavigationMenuTrigger>
                                     <Link href={cat.link}>
                                         {cat.name}
@@ -37,7 +37,7 @@ export default function NavMenu(props: NavMenuProps) {
                                 <NavigationMenuContent>
                                     <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px] p-4">
                                         {cat.children && cat.children.map((child, index) => (
-                                            <li>
+                                            <li key={index}>
                                                 <NavigationMenuLink href={child.link}>
                                                     <p>
                                                         {child.name}

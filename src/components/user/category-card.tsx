@@ -38,7 +38,7 @@ export default function CategoryCard(props: CategoryCardProps) {
                 custom={props.index}
                 className="flex flex-col items-center gap-2 group"
             >
-                <div className="border-2 rounded-sm aspect-square overflow-hidden max-w-[225px]">
+                <div className="border-2 rounded-lg aspect-square overflow-hidden max-w-[225px]">
                     <Image
                         src={"/cat.png"}
                         width={225}

@@ -28,7 +28,7 @@ import NavMenu from "./nav-menu";
 
 export default async function Nav() {
 
-  const [error, result] = await tryCatch(getCategories());
+  const [error, result] = await tryCatch(getCategories({nested:true})) as [Error| null, { categories: NestedCategory[] } | null];
 
   return (
     <div
@@ -52,7 +52,7 @@ export default async function Nav() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      {result && <NavMenu categories={result.categories}/>}
+      {result && <NavMenu categories={result.categories as NestedCategory[]}/>}
       <div className="px-8">
 
       </div>
