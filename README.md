@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PurrPass
 
-## Getting Started
+An online pet shop e-commerce platform developed with Next.js, featuring both a customer-facing store and an admin panel. This startup project was built in collaboration with a senior software engineer from LEADS Corporation Limited.
 
-First, run the development server:
+## Table of Contents
 
-```bash
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Testing](#testing)
+- [Project Stucture](#project-structure)
+- [Technologies Used](#technologies-used)
+- [Documentation](#documentation)
+- [Author](#author)
+
+## Features
+
+- Users are able to browse various categories of pet products.
+- Users can search for specific pet products.
+- Users can place orders for multiple products in a single purchase.
+- Admins have the ability to manage products.
+- Admins can view and manage customer orders.
+- Admins can track and manage inventory.
+
+
+## Installation
+
+```
+git clone https://github.com/codebyred/purr-pass.git
+cd purr-pass
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Currently, the application is under development.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To use it locally:
 
-## Learn More
+1. Clone the repository and install dependencies (see [Installation](#installation)).
+2. Start the development server:
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Testing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+purr-pass/
+├── docs/ # Project documentation
+├── src/
+│ ├── actions/ # Server actions
+│ │ ├── category-action.ts # Category-related actions (get, create, update, delete)
+│ │ └── product-action.ts # Product-related actions (get, create, update, delete)
+│ ├── api/ # API route handlers
+│ ├── app/ # Application pages (Next.js app directory)
+│ │ ├── (user)/ # User pages
+│ │ └── admin/ # Admin pages
+│ ├── components/ # React components
+│ │ ├── user/ # Components for user pages
+│ │ ├── admin/ # Components for admin pages
+│ │ └── ui/ # Reusable UI components (shadcn)
+│ ├── db/ # Database connection and schemas
+│ ├── hooks/ # Custom React hooks
+│ └── lib/ # Utilities and types
+│ ├── const.ts # Application-wide constants
+│ ├── types.ts # Schema and type declarations
+│ └── utils.ts # Utility functions
+├── package.json # Project metadata and scripts
+└── README.md # Project documentation
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Documentation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [API](docs/api.md)
+- [Error Handling](docs/error-handling.md)
+- [Utility functions](docs/utility.md)
+
+## Author
+
+[codebyred](https://github.com/codebyred)
