@@ -1,6 +1,6 @@
 
-import { getProducts} from "@/actions/product-action";
-import {getCategories, getCategory, getSubCategories} from "@/actions/category-action"
+import { getProducts} from "@/services/product-service";
+import {getCategories, getCategory, getSubCategories} from "@/services/category-service"
 import ProductCard from "@/components/user/product-card";
 import SubCategoryCard from "@/components/user/sub-cat-card";
 import { NestedCategory } from "@/lib/types";

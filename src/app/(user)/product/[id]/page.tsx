@@ -1,4 +1,4 @@
-import { getProduct} from "@/actions/product-action"
+import { getProduct} from "@/services/product-service"
 import Product from "@/components/user/product";
 import ProductCard from "@/components/user/product-card";
 import { tryCatch } from "@/lib/utils";

@@ -2,7 +2,7 @@
 
 const nextConfig = {
     images: {
-        domains: ['ik.imagekit.io'],
+        domains: ["uploads.1visahub.com"],
     },
 };
 

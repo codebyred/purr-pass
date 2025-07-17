@@ -23,7 +23,7 @@ import Link from "next/link"
 import { FaAngleDown } from "react-icons/fa";
 import { NestedCategory } from "@/lib/types"
 import { buildNestedCategories, tryCatch } from "@/lib/utils"
-import { getCategories } from "@/actions/category-action";
+import { getCategories } from "@/services/category-service";
 import NavMenu from "./nav-menu";
 
 export default async function Nav() {

@@ -1,4 +1,4 @@
-import { getCategories } from "@/actions/category-action"
+import { getCategories } from "@/services/category-service"
 import CategoryCard from "@/components/user/category-card"
 import { buildNestedCategories, tryCatch } from "@/lib/utils"
 import React from "react"

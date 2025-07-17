@@ -1,4 +1,4 @@
-import { getProducts } from "@/actions/product-action";
+import { getProducts } from "@/services/product-service";
 import ProductCard from "@/components/user/product-card";
 import { tryCatch } from "@/lib/utils";
 import React from "react";
@@ -15,8 +15,6 @@ export default async function SubCategoryPage(props: PageProps) {
     const { "sub-category": subCategory } = props.params;
 
     const [error, result] = await tryCatch(getProducts({categorySlug:subCategory}));
-
-    console.log(result)
 
     return (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 items-stretch">

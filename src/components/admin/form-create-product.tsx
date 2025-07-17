@@ -76,7 +76,7 @@ export default function CreateProductForm(props: FormCreateProductProps) {
         }
         toast(`${result.message}`);
         form.reset();
-        
+
     }
 
     return (

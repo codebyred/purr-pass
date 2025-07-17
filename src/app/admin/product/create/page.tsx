@@ -1,4 +1,4 @@
-import { getCategories } from "@/actions/category-action";
+import { getCategories } from "@/services/category-service";
 import FormCreateProduct from "@/components/admin/form-create-product";
 import { tryCatch } from "@/lib/utils";
 

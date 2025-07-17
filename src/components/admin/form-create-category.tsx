@@ -20,7 +20,7 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
 import { MdLibraryAdd } from "react-icons/md";
 import FormItemVariantInput from "./form-item-select";
-import { createProduct } from "@/actions/product-action";
+import { createProduct } from "@/services/product-service";
 import { categoryFormDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
 import FormItemInput from "./form-item-input";
@@ -29,7 +29,7 @@ import { sleep } from "@/lib/utils"
 import { categoryFomDataSchema } from "@/lib/types";
 import type { CategoryFormData } from "@/lib/types"
 import FormItemSelect from "./form-item-select";
-import { createCategory } from "@/actions/category-action";
+import { createCategory } from "@/services/category-service";
 
 
 const defaultValues: CategoryFormData = {
