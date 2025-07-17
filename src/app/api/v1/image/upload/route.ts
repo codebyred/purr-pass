@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import ImageKit from "imagekit";
+
 import { tryCatch } from "@/lib/utils";
 import httpStatus from "http-status"
-import * as AWS from 'aws-sdk';
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import slugify from "slugify"
 
-const s3 = new AWS.S3({
-  endpoint: process.env.S3_ENDPOINT,
-  accessKeyId: process.env.S3_ACCESS_KEY,
-  secretAccessKey: process.env.S3_SECRET_KEY,
-  s3ForcePathStyle: true,
-  signatureVersion: 'v4',
+const s3 = new S3Client({
+    endpoint: process.env.S3_ENDPOINT!,
+    region: "us-east-1",
+    credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY!,
+        secretAccessKey: process.env.S3_SECRET_KEY!,
+    },
+    forcePathStyle: true,
 });
 
 
@@ -52,16 +54,20 @@ export async function POST(req: NextRequest) {
 
     const key = slugify(`${Date.now()}-${file.name}`);
 
-    const params = {
-      Bucket: process.env.S3_BUCKET!,
-      Key: key,
-      Body: buffer,
-    };
+    const command = new PutObjectCommand({
+        Bucket: process.env.S3_BUCKET!,
+        Key: key,
+        Body: buffer,
+    });
 
-    const [uploadError, uploaded] = await tryCatch(s3.putObject(params).promise())
+    const [uploadError, uploaded] = await tryCatch(s3.send(command))
 
     if (uploadError || !uploaded) {
-        console.error("Error uploading file to imagekit", uploadError?.message);
+        if(uploadError){
+            console.error(uploadError?.message);
+        }else{
+            console.error("File not uploaded to s3")
+        }
         return NextResponse.json({
             error: "File Uploading Error"
         }, {

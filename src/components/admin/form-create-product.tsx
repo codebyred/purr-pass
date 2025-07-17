@@ -66,17 +66,17 @@ export default function CreateProductForm(props: FormCreateProductProps) {
 
     const onSubmit = async (data: ProductFormData) => {
 
-        console.log(data);
-        // const formData = productFormDataToFormData(data);
+        const formData = productFormDataToFormData(data);
 
-        // const [error, result] = await tryCatch(createProduct(formData));
+        const [error, result] = await tryCatch(createProduct(formData));
 
-        // if (error || !result || !result.message) {
-        //     toast(`Could not create product due to ${error?.message}`);
-        //     return;
-        // }
-        // toast(`${result.message}`);
+        if (error || !result || !result.message) {
+            toast(`Could not create product due to ${error?.message}`);
+            return;
+        }
+        toast(`${result.message}`);
         form.reset();
+        
     }
 
     return (

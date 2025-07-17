@@ -2,6 +2,7 @@
 
 import { Category, categorySchema, NestedCategory } from "@/lib/types";
 import { buildNestedCategories, tryCatch } from "@/lib/utils";
+import slugify from "slugify";
 
 
 export async function getCategories({ nested }: { nested: boolean } = { nested: false }) {
@@ -112,20 +113,44 @@ export async function createCategory(formData: FormData) {
     const parentId = formData.get("parentId") as string;
     const featured = formData.get("featured") as string;
 
-    const imageFiles = formData.get("image") as File;
-    if (imageFiles.length === 0) {
+    const imageFile = formData.get("image") as File;
+    if (imageFile.length === 0) {
         throw new Error("At least one image is required.");
     }
 
+    const uploadFormData = new FormData();
+    uploadFormData.append("file", imageFile);
+
+    const [fetchError, fetchResponse] = await tryCatch(
+        fetch(`${process.env.API_URI}/image/upload`, {
+            method: "POST",
+            body: uploadFormData,
+        })
+    );
+
+    if (fetchError || !fetchResponse || !fetchResponse.ok) {
+        if (fetchError) {
+            console.log(fetchError.message);
+            throw fetchError;
+        } else if (!fetchResponse) {
+            console.error(`did not receive response for operation POST /product`)
+            throw new Error("Could not fetch products");
+        } else {
+            const body = await fetchResponse.json();
+            console.error(body.error as string)
+            throw new Error(body.error as string);
+        }
+    }
+
     const category = {
-        slug: name.toLowerCase().split(" ").join("-"),
+        slug: slugify(name),
         name,
-        parentId: parentId?parentId:null
+        parentId: parentId ? parentId : null
     }
 
     console.log(category);
 
-    return {message: "Category created successfully"}
+    return { message: "Category created successfully" }
 
 }
 /*
