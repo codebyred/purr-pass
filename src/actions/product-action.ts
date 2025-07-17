@@ -2,7 +2,8 @@
 
 import type { Product, Variant, VariantFormData } from "@/lib/types";
 import { productFormDataSchema, Image } from "@/lib/types";
-import { slugify, tryCatch } from "@/lib/utils";
+import { tryCatch } from "@/lib/utils";
+import slugify from "slugify";
 
 export async function getProducts({
   categoryId,

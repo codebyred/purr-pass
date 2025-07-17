@@ -2,12 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import ImageKit from "imagekit";
 import { tryCatch } from "@/lib/utils";
 import httpStatus from "http-status"
+import * as AWS from 'aws-sdk';
+import slugify from "slugify"
 
-const imagekit = new ImageKit({
-    publicKey: process.env.IMAGEKIT_PUBLIC_KEY!,
-    privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
-    urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT!,
+const s3 = new AWS.S3({
+  endpoint: process.env.S3_ENDPOINT,
+  accessKeyId: process.env.S3_ACCESS_KEY,
+  secretAccessKey: process.env.S3_SECRET_KEY,
+  s3ForcePathStyle: true,
+  signatureVersion: 'v4',
 });
+
 
 export async function POST(req: NextRequest) {
 
@@ -45,10 +50,15 @@ export async function POST(req: NextRequest) {
 
     const buffer = Buffer.from(arrayBuffer);
 
-    const [uploadError, uploaded] = await tryCatch(imagekit.upload({
-        file: buffer,
-        fileName: file.name
-    }))
+    const key = slugify(`${Date.now()}-${file.name}`);
+
+    const params = {
+      Bucket: process.env.S3_BUCKET!,
+      Key: key,
+      Body: buffer,
+    };
+
+    const [uploadError, uploaded] = await tryCatch(s3.putObject(params).promise())
 
     if (uploadError || !uploaded) {
         console.error("Error uploading file to imagekit", uploadError?.message);
@@ -60,8 +70,8 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({
-        url: uploaded.url,
-        alt: uploaded.name
+        url: `https://uploads.1visahub.com/files/${key}`,
+        alt: file.name
     }, {
         status: httpStatus.OK
     })

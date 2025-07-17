@@ -62,19 +62,6 @@ export function buildNestedCategories(categories: Category[]) {
   return nestedCategories
 }
 
-export function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/ /g, "-")
-    .replace(/[^\w-]+/g, "");
-}
-
-export function normalizeSlug(slug: string): string {
-  return slug
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
 
 export function productFormDataToFormData(data: ProductFormData): FormData {
   const formData = new FormData();
