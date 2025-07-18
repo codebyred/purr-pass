@@ -33,7 +33,7 @@ export default function Product(props: ProductProps) {
                 <h1 className="font-semibold text-xl">{product?.name}</h1>
                 <div className="grid grid-cols-2 grid-rows-2 gap-2 text-xs text-gray-500 font-medium">
                     <span>SKU: {sku}</span>
-                    <span>Category: {product.category}</span>
+                    <span>Category: {product.category as string}</span>
                     <span>Brand: {product.brand}</span>
                 </div>
                 <div>

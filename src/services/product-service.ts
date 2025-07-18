@@ -41,38 +41,29 @@ export async function getProducts({
 
   const [fetchError, fetchResponse] = await tryCatch(fetch(finalUrl, { method: "GET" }));
 
-  if (fetchError || !fetchResponse || !fetchResponse.ok) {
-
-    if (fetchError) {
-      console.error(fetchError.message);
-      throw fetchError;
-    } else if (!fetchResponse) {
-      console.error(`did not receive response for operation POST /product`)
-      throw new Error("Could not fetch products");
-    } else {
-      const body = await fetchResponse.json();
-      throw new Error(body.error as string);
-    }
-
+  if (fetchError) {
+    console.error(fetchError.message);
+    throw fetchError;
+  } else if (!fetchResponse) {
+    console.error(`did not receive response for operation POST /product`)
+    throw new Error("Could not fetch products");
+  } else if(!fetchResponse.ok) {
+    const body = await fetchResponse.json();
+    throw new Error(body.error as string);
   }
 
   const [parseError, productsData] = await tryCatch(fetchResponse.json());
 
-  if (parseError || !productsData || !productsData.products) {
-    console.error(parseError?.message);
-    if (parseError) {
-      console.error(parseError.message);
-      throw parseError;
-    } else if (!productsData) {
-      const message = "could not parse api response body"
-      console.error(message)
-      throw new Error(message);
-    } else if(!productsData.product){
-      console.error("response body does not contain products")
-      throw new Error("response body does not contain products");
-    }else {
-      throw new Error("unknown error while parsing api response body")
-    }
+  if (parseError) {
+    console.error(parseError.message);
+    throw parseError;
+  } else if (!productsData) {
+    const message = "could not parse api response body"
+    console.error(message)
+    throw new Error(message);
+  } else if(!productsData.product){
+    console.error("response body does not contain products")
+    throw new Error("response body does not contain products");
   }
 
   const result: Result = {
