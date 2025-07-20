@@ -1,7 +1,7 @@
 import { ProductFormData } from "@/lib/types"
 import { UseFormReturn, FieldValues, Path } from "react-hook-form"
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { Input } from "../ui/input"
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 
 type FormItemInputProps<T extends FieldValues> = {
     form: UseFormReturn<T>

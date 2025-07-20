@@ -77,6 +77,7 @@ export const categorySchema = z.object({
   name: z.string(),
   parentId: z.string().nullable(),
   image:imageSchema,
+  featured: z.boolean(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 });

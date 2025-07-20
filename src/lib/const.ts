@@ -79,16 +79,6 @@ export const adminSidebarItem = [
   }
 ]
 
-export const variantOptions = [
-  {
-    id:"1",
-    name: "Weight",
-  },
-  {
-    id: "2",
-    name: "Color",
-  }
-]
 
 export const defaultPagination = {
   page: 1,

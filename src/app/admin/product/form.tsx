@@ -22,10 +22,9 @@ import { MdLibraryAdd } from "react-icons/md";
 import { createProduct, createVariantValue } from "@/actions/product-action";
 import { productFormDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
-import FormItemInput from "../../../components/admin/form-item-input";
-import FormItemImages from "../../../components/admin/form-item-image-uploader";
-import FormItemSelect from "../../../components/admin/form-item-select";
-import { variantOptions } from "@/lib/const";
+import FormItemInput from "@/components/form-item-input";
+import FormItemImages from "@/components/admin/form-item-image-uploader";
+import FormItemSelect from "@/components/form-item-select";
 
 const defaultValues: ProductFormData = {
     name: "",

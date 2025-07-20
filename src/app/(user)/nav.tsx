@@ -14,11 +14,11 @@ import { FaAngleDown } from "react-icons/fa";
 import { NestedCategory } from "@/lib/types"
 import { tryCatch } from "@/lib/utils"
 import { getCategories } from "@/actions/category-action";
-import NavMenu from "./nav-menu";
+import NavMenu from "../../components/user/nav-menu";
 
 export default async function Nav() {
 
-  const [error, result] = await tryCatch(getCategories({nested:true})) as [Error| null, { categories: NestedCategory[] } | null];
+  const [error, result] = await tryCatch(getCategories({nested:true, featured:true})) as [Error| null, { nestedCategories: NestedCategory[] } | null];
 
   return (
     <div
@@ -33,7 +33,7 @@ export default async function Nav() {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {
-              result && result.categories.map((child, index) => (
+              result &&  result.nestedCategories &&  result.nestedCategories.map((child, index) => (
                 <React.Fragment key={index}>
                   <SubMenu item={{ ...child }} />
                 </React.Fragment>
@@ -42,7 +42,7 @@ export default async function Nav() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      {result && <NavMenu categories={result.categories as NestedCategory[]}/>}
+      {result && <NavMenu categories={result.nestedCategories as NestedCategory[]}/>}
       <div className="px-8">
 
       </div>

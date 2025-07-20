@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/select"
 import React from "react"
 import { FieldValues, Path, UseFormReturn } from "react-hook-form"
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { Button } from "../ui/button"
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
+import { Button } from "./ui/button"
 import {
     Dialog,
     DialogClose,
@@ -23,8 +23,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Label } from "../ui/label"
-import { Input } from "../ui/input"
+import { Label } from "./ui/label"
+import { Input } from "./ui/input"
 
 type SelectItem = {
     id: string,

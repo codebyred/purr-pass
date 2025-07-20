@@ -1,10 +1,10 @@
 import React from "react";
-import Searchbar from "../searchbar";
+import Searchbar from "@/components/searchbar";
 import { CiShoppingCart } from "react-icons/ci";
 import Nav from "./nav";
-import Logo from "../logo";
-import Notice from "./notice";
-import MenuButton from "./menu-button";
+import Logo from "@/components/logo";
+import Notice from "@/components/user/notice";
+import MenuButton from "@/components/user/menu-button";
 
 const header = () => {
     return (

@@ -17,11 +17,11 @@ import React from "react";
 import { MdLibraryAdd } from "react-icons/md";
 import { categoryFormDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
-import FormItemInput from "@/components/admin/form-item-input";
+import FormItemInput from "@/components/form-item-input";
 import FormItemImages from "@/components/admin/form-item-image-uploader";
 import { categoryFomDataSchema } from "@/lib/types";
 import type { CategoryFormData } from "@/lib/types"
-import FormItemSelect from "@/components/admin/form-item-select";
+import FormItemSelect from "@/components/form-item-select";
 import { createCategory } from "@/actions/category-action";
 
 
@@ -49,15 +49,17 @@ export default function FormCreateCategory(props: FormCreateCategoryProps) {
 
     const onSubmit = async (data: CategoryFormData) => {
 
-        const formData = categoryFormDataToFormData(data);
-        const [error, result] = await tryCatch(createCategory(formData));
+        console.log(data);
 
-        if(error || !result || !result.message){
-            toast(`Could not create product due to ${error?.message}`);
-            return;
-        }
-        toast(`${result.message}`);
-        form.reset();
+        // const formData = categoryFormDataToFormData(data);
+        // const [error, result] = await tryCatch(createCategory(formData));
+
+        // if(error || !result || !result.message){
+        //     toast(`Could not create product due to ${error?.message}`);
+        //     return;
+        // }
+        // toast(`${result.message}`);
+        // form.reset();
     }
 
     return (

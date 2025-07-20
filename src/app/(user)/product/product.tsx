@@ -1,7 +1,7 @@
 "use client"
 
 import type { Product, Variant } from "@/lib/types"
-import ProductImage from "@/components/user/product-img";
+import ProductImage from "@/app/(user)/product/product-img";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";

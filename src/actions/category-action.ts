@@ -2,9 +2,10 @@
 
 import { Category, NestedCategory } from "@/lib/types";
 import { buildNestedCategories, tryCatch } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 import slugify from "slugify";
 
-export async function getCategories({ nested }: { nested: boolean } = { nested: false }) {
+export async function getCategories({ nested, featured }: { nested?: boolean, featured?:boolean } = { nested: false, featured: false }) {
     const [fetchError, fetchResponse] = await tryCatch(fetch(`${process.env.API_URI}/categories`));
 
     if (fetchError || !fetchResponse) {
@@ -19,11 +20,21 @@ export async function getCategories({ nested }: { nested: boolean } = { nested: 
         throw new Error("Could not parse categories data");
     }
 
-    if (nested) {
-        const categories = buildNestedCategories(categoriesData.categories);
+    console.log(categoriesData.categories)
 
-        return { categories: categories as NestedCategory[] };
+    
+    const categories = featured?
+        categoriesData.categories.filter((category: Category)=> category.featured)
+        :categoriesData.categories;
+
+    console.log(categories)
+
+    if (nested) {
+        const nestedCategories = buildNestedCategories(categories);
+
+        return { nestedCategories: nestedCategories as NestedCategory[] };
     }
+
 
     return { categories: categoriesData.categories as Category[] }
 
@@ -190,6 +201,10 @@ export async function createCategory(formData: FormData) {
     }
 
     const body = await saved.json();
+
+    revalidatePath("/")
+    revalidatePath("/admin/category/create")
+
     return { message: body.message }
 
 }
