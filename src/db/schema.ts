@@ -1,5 +1,15 @@
 import mongoose, { Schema, model, InferSchemaType, models } from "mongoose";
 
+const variantValueSchema = new Schema(
+  {
+    name: { type: String, required: true }
+  },
+  {
+    timestamps: true,
+    collection: "variant-values",
+  }
+)
+
 const variantOptionSchema = new Schema(
   {
     name: { type: String, required: true },
@@ -44,7 +54,7 @@ const categorySchema = new Schema(
     },
     image: {
       type: imageSchema,
-      required: true 
+      required: true
     },
     featured: {
       type: Boolean,
@@ -83,7 +93,7 @@ const productSchema = new Schema(
   }
 );
 
-
+type VariantValue = InferSchemaType<typeof variantValueSchema>;
 type Product = InferSchemaType<typeof productSchema>;
 type Category = InferSchemaType<typeof categorySchema>;
 export const ProductModel =
@@ -91,3 +101,6 @@ export const ProductModel =
 
 export const CategoryModel =
   mongoose.models.Category as mongoose.Model<Category> || model<Category>("Category", categorySchema);
+
+export const VariantValueModel = 
+  mongoose.models.VariantValue as mongoose.Model<VariantValue> || model<VariantValue>("VariantValue", variantValueSchema)

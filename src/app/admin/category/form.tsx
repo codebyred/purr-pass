@@ -12,22 +12,16 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
-import type { Category, Image, NestedCategory, ProductFormData } from "@/lib/types";
-import { Input } from "../ui/input";
-import React, { startTransition, useEffect, useState } from "react";
-import { MdOutlineDeleteOutline } from "react-icons/md";
-import { FaPlus } from "react-icons/fa";
+import type { Category} from "@/lib/types";
+import React from "react";
 import { MdLibraryAdd } from "react-icons/md";
-import FormItemVariantInput from "./form-item-select";
 import { categoryFormDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
-import FormItemInput from "./form-item-input";
-import FormItemImages from "./form-item-image-uploader";
-import { sleep } from "@/lib/utils"
+import FormItemInput from "@/components/admin/form-item-input";
+import FormItemImages from "@/components/admin/form-item-image-uploader";
 import { categoryFomDataSchema } from "@/lib/types";
 import type { CategoryFormData } from "@/lib/types"
-import FormItemSelect from "./form-item-select";
+import FormItemSelect from "@/components/admin/form-item-select";
 import { createCategory } from "@/actions/category-action";
 
 

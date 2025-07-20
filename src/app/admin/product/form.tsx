@@ -12,22 +12,19 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
 import { productFormDataSchema } from "@/lib/types";
-import type { Category, Image, NestedCategory, ProductFormData } from "@/lib/types";
-import { Input } from "../ui/input";
-import React, { useState } from "react";
+import type { Category, ProductFormData, VariantValue } from "@/lib/types";
+import { Input } from "../../../components/ui/input";
+import React from "react";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
 import { MdLibraryAdd } from "react-icons/md";
-import FormItemVariantInput from "./form-item-select";
-import { createProduct } from "@/actions/product-action";
+import { createProduct, createVariantValue } from "@/actions/product-action";
 import { productFormDataToFormData, tryCatch } from "@/lib/utils";
 import { toast } from "sonner"
-import FormItemInput from "./form-item-input";
-import FormItemImages from "./form-item-image-uploader";
-import { sleep } from "@/lib/utils"
-import FormItemSelect from "./form-item-select";
+import FormItemInput from "../../../components/admin/form-item-input";
+import FormItemImages from "../../../components/admin/form-item-image-uploader";
+import FormItemSelect from "../../../components/admin/form-item-select";
 import { variantOptions } from "@/lib/const";
 
 const defaultValues: ProductFormData = {
@@ -50,11 +47,12 @@ const defaultValues: ProductFormData = {
 
 type FormCreateProductProps = {
     categories: Category[]
+    variantValues: VariantValue[]
 }
 
-export default function CreateProductForm(props: FormCreateProductProps) {
+export default function ProductForm(props: FormCreateProductProps) {
 
-    const { categories } = props;
+    const { categories, variantValues } = props;
 
     const form = useForm<ProductFormData>({
         mode: "onSubmit",
@@ -122,13 +120,15 @@ export default function CreateProductForm(props: FormCreateProductProps) {
                             fieldName={"variantType"}
                             fieldLabel="Product Variant"
                             fieldDescription="Select Product Variant"
-                            selectItems={variantOptions.map((variant) => {
+                            selectItems={variantValues.map((variant) => {
                                 return {
-                                    id: variant.id,
+                                    id: variant.id as string,
                                     name: variant.name
                                 }
                             })}
                             selectValue="name"
+                            addItem={true}
+                            addItemAction={createVariantValue}
                         />
                         <FormItemInput
                             form={form}
@@ -288,7 +288,6 @@ export default function CreateProductForm(props: FormCreateProductProps) {
                         {form.formState.isSubmitting ? "Saving ..." : "Save"}
                     </Button>
                 </div>
-
             </form>
         </Form>
     )

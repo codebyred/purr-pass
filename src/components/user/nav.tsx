@@ -9,21 +9,11 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-} from "@/components/ui/navigation-menu"
 import Link from "next/link"
 import { FaAngleDown } from "react-icons/fa";
 import { NestedCategory } from "@/lib/types"
-import { buildNestedCategories, tryCatch } from "@/lib/utils"
-import { getCategories } from "@/services/category-service";
+import { tryCatch } from "@/lib/utils"
+import { getCategories } from "@/actions/category-action";
 import NavMenu from "./nav-menu";
 
 export default async function Nav() {

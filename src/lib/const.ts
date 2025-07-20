@@ -60,10 +60,6 @@ export const adminSidebarItem = [
             url: "/admin/product/create"
           },
           {
-            title: "Variant",
-            url: "/admin/product/variant"
-          },
-          {
             title: "Featured",
             url: "/admin/product/featured"
           }
@@ -87,12 +83,10 @@ export const variantOptions = [
   {
     id:"1",
     name: "Weight",
-    value: "Weight"
   },
   {
     id: "2",
     name: "Color",
-    value: "Color"
   }
 ]
 

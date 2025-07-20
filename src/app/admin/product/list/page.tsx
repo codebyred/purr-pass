@@ -1,4 +1,4 @@
-import { getProducts } from "@/services/product-service";
+import { getProducts } from "@/actions/product-action";
 import { DataTable } from "@/components/admin/data-table";
 import { productTableColumns } from "@/components/admin/product-table-columns";
 import { Category, PartialProduct } from "@/lib/types";

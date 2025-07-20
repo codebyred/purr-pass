@@ -11,6 +11,12 @@ export const fileSchema = z
     return Array.from(files).every((file)=> file.size <= maxFileSize)
   }, {message: "Each file must be less than or equal to 10MB"})
 
+export const variantValueSchema = z.object({
+  id: z.string().optional(),
+  name: z.string()
+})
+
+export type VariantValue = z.infer<typeof variantValueSchema>
 
 export const variantFormDataSchema = z.object({
   value: z.string().min(1, { message: "Variant value is required" }),
