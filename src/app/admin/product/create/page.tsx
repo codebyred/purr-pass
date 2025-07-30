@@ -12,8 +12,6 @@ export default async function CreateProductPage() {
     const categories = categoryiesData?.categories as Category[];
     const variantValues = variantValuesData?.variantValues as VariantValue[]
 
-    console.log(variantValues)
-
     return (
         <div className="flex flex-col px-4 sm:px-24">
             {

@@ -1,5 +1,6 @@
 import HeroCarousel from "@/components/user/hero-carousel";
-import Featured from "@/components/user/featured"
+import FeaturedCategories from "@/components/user/featured-categories"
+import FeaturedProducts from "@/components/user/featured-products";
 
 export default function HomePage() {
   return (
@@ -10,7 +11,8 @@ export default function HomePage() {
         </div> 
       </section>
       <section className="w-full mt-8 mb-8 px-6 sm:px-24">
-        <Featured/>
+        <FeaturedCategories/>
+        <FeaturedProducts/>
       </section>
       <section className="w-full mt-8 mb-8">
 

@@ -19,7 +19,8 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = request.nextUrl;
 
-    const parentId = searchParams.get("parentId")
+    const parentId = searchParams.get("parentId");
+    const featured = searchParams.get("featured");
 
     let page = Number(searchParams.get("page"));
     let limit = Number(searchParams.get("limit"));
@@ -27,13 +28,21 @@ export async function GET(request: NextRequest) {
     page = !isNaN(page) && page > 0 ? page : defaultPagination.page;
     limit = !isNaN(limit) && limit > 0 ? limit : defaultPagination.limit;
 
-    let query = {}
+    let query: any = {};
 
-    if (parentId){
-        query = {parentId}
+    if (parentId) {
+        query.parentId = parentId;
+    }
+    if (featured === "true") {
+        query.featured = true;
     }
 
-    const [queryError, queryResult] = await tryCatch(CategoryModel.find().lean());
+    const [queryError, queryResult] = await tryCatch(
+        CategoryModel.find(query)
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .lean()
+    );
 
     if (queryError || !queryResult) {
         return NextResponse.json(
@@ -44,7 +53,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
         {
-            categories: queryResult.map(({_id, ...rest}) => ({
+            categories: queryResult.map(({ _id, ...rest }) => ({
                 id: _id,
                 ...rest
             }))

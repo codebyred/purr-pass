@@ -6,9 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 type CategoryCardProps = {
+    categoryImageUrl: Url,
     categoryName: string,
     index: number,
-    categoryLink: Url
+    categoryLink?: Url
 }
 
 const fadeInAnimationVariant = {
@@ -26,7 +27,7 @@ const fadeInAnimationVariant = {
 export default function CategoryCard(props: CategoryCardProps) {
 
     return (
-        <Link href={props.categoryLink}>
+        <Link href={props.categoryLink || "/"}>
             <motion.div
                 variants={fadeInAnimationVariant}
                 initial="initial"
@@ -40,7 +41,7 @@ export default function CategoryCard(props: CategoryCardProps) {
             >
                 <div className="border-2 rounded-lg aspect-square overflow-hidden max-w-[225px]">
                     <Image
-                        src={"/cat.png"}
+                        src={props.categoryImageUrl.toString()}
                         width={225}
                         height={225}
                         alt={"featured category image"}

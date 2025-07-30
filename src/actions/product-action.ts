@@ -51,12 +51,12 @@ export async function createProduct(formData: FormData) {
     } else if (!fetchResponse) {
       console.error(`did not receive response for operation POST /product`)
       throw new Error("Could not fetch products");
-    } else if(!fetchResponse.ok) {
+    } else if (!fetchResponse.ok) {
       const body = await fetchResponse.json();
       console.error(body.error as string)
       throw new Error(body.error as string);
     }
-    
+
 
     const [parseUploadError, parseResult] = await tryCatch(fetchResponse.json());
     if (parseUploadError || !parseResult) {
@@ -173,10 +173,12 @@ export async function createVariantValue(formData: FormData) {
 export async function getProducts({
   categoryId,
   categorySlug,
+  featured,
   page
 }: {
   categoryId?: string;
   categorySlug?: string;
+  featured?: boolean
   page?: number
 } = {}) {
   type Result = {
@@ -233,7 +235,9 @@ export async function getProducts({
   }
 
   const result: Result = {
-    products: productsData.products as Product[]
+    products: featured?
+      productsData.products.filter((product: Product)=> product.featured)
+      :productsData.products as Product[]
   }
 
   if (productsData.next) {
@@ -274,7 +278,6 @@ export async function getProduct({
     console.error(parseError?.message);
     throw new Error(`Invalid product data received`);
   }
-
   return { product: productData.product as Product };
 }
 
@@ -287,16 +290,16 @@ export async function getVariantValues() {
   } else if (!fetchResponse) {
     console.error(`did not receive response for operation POST /variant-value`)
     throw new Error("Could not fetch products");
-  } else if(!fetchResponse.ok) {
+  } else if (!fetchResponse.ok) {
     const body = await fetchResponse.json();
     console.error(body.error as string)
     throw new Error(body.error as string);
   }
-  
+
   const body = await fetchResponse.json();
 
   revalidatePath("/admin/product/create")
 
-  return { variantValues: body.variantValues}
+  return { variantValues: body.variantValues }
 
 }

@@ -6,7 +6,9 @@ import { revalidatePath } from "next/cache";
 import slugify from "slugify";
 
 export async function getCategories({ nested, featured }: { nested?: boolean, featured?:boolean } = { nested: false, featured: false }) {
-    const [fetchError, fetchResponse] = await tryCatch(fetch(`${process.env.API_URI}/categories`));
+   
+    const url = featured?`${process.env.API_URI}/categories?featured=true`:`${process.env.API_URI}/categories`
+    const [fetchError, fetchResponse] = await tryCatch(fetch(url));
 
     if (fetchError || !fetchResponse) {
         console.error(fetchError?.message);
@@ -20,21 +22,14 @@ export async function getCategories({ nested, featured }: { nested?: boolean, fe
         throw new Error("Could not parse categories data");
     }
 
-    console.log(categoriesData.categories)
+    const categories = categoriesData.categories;
 
-    
-    const categories = featured?
-        categoriesData.categories.filter((category: Category)=> category.featured)
-        :categoriesData.categories;
-
-    console.log(categories)
 
     if (nested) {
         const nestedCategories = buildNestedCategories(categories);
 
         return { nestedCategories: nestedCategories as NestedCategory[] };
     }
-
 
     return { categories: categoriesData.categories as Category[] }
 
@@ -208,12 +203,4 @@ export async function createCategory(formData: FormData) {
     return { message: body.message }
 
 }
-/*
-  id: z.string(),
-  slug: z.string(),
-  name: z.string(),
-  parentId: z.string().nullable(),
-  image:imageSchema,
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
-*/
+

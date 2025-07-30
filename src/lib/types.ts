@@ -88,6 +88,7 @@ export const productSchema = z.object({
   slug: z.string(),
   name: z.string(),
   brand: z.string(),
+  featured: z.boolean(),
   category: z.union([z.string(), categorySchema]),
   images: z.array(imageSchema),
   variantOptions: z.array(variantOptionSchema),
